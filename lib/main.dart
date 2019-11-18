@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myapplication/provider/event_attendance.dart';
+import 'package:provider/provider.dart';
 
 import 'widgets/menu.dart';
 
@@ -9,12 +11,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "MyApp",
-      theme: ThemeData(
-        primarySwatch: Colors.blue
+       return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(builder: (_) => EventAttendance()),
+      ],
+          child: MaterialApp(
+        title: "MyApp",
+        theme: ThemeData(
+          primarySwatch: Colors.blue
+        ),
+        home: Homepage(),
       ),
-      home: Homepage(),
     );
   }
 }
@@ -29,15 +36,35 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-      title: Text("BCC APP"),
+    body: NestedScrollView(
+      body: Menu(), 
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+
+        return <Widget>[
+
+          SliverAppBar(
+            expandedHeight: 200.0 ,
+            pinned: true,
+            floating: false,
+            flexibleSpace: FlexibleSpaceBar(
+
+              title: Text("BCC APP"),
+              centerTitle: true,
+              background: Image.asset('assets/images/header.jpeg',fit: BoxFit.cover,),
+              
+            ),
+          )
+        ];
+      },
       
     ),
-    body: Menu(),
     );
     
   }
 }
+
+
+
 
 // class MyApp extends StatelessWidget {
 //   // This widget is the root of your application.

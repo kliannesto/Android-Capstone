@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:myapplication/pages/smsscanner.dart';
 
-class SmsMenuBody extends StatelessWidget {
+import 'attendancescanner.dart';
+
+class AttendanceMenu extends StatelessWidget {
   final String menu;
   final Container icon;
   final String tag;
-  const SmsMenuBody({Key key, this.menu, this.icon, this.tag})
+  const AttendanceMenu({Key key, this.menu, this.icon, this.tag})
       : super(key: key);
 
   @override
@@ -40,10 +42,7 @@ class SmsMenuBody extends StatelessWidget {
                       radius: 70.0,
                     ),
                   ),
-                  Text(
-                    menu,
-                    style: TextStyle(color: Colors.white),
-                  )
+                  
                 ],
               ),
             ),
@@ -63,8 +62,8 @@ class SmsMenuBody extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return SmsScanner(
-                          message: "Log-in",
+                        return AttendanceScanner(
+                          message: "0",
                         );
                       }));
                     },
@@ -125,8 +124,8 @@ class SmsMenuBody extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (context) {
-                        return SmsScanner(
-                          message: "Log-out",
+                        return AttendanceScanner(
+                          message: "1",
                         );
                       }));
                     },
@@ -184,18 +183,18 @@ class SmsMenuBody extends StatelessWidget {
   }
 }
 
-class HomeSMS extends StatefulWidget {
-  HomeSMS({Key key}) : super(key: key);
+class HomeAttendance extends StatefulWidget {
+  HomeAttendance({Key key}) : super(key: key);
 
-  _HomeSMSState createState() => _HomeSMSState();
+  _HomeAttendanceState createState() => _HomeAttendanceState();
 }
 
-class _HomeSMSState extends State<HomeSMS> {
+class _HomeAttendanceState extends State<HomeAttendance> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
-        body: SmsMenuBody(),
+        body: AttendanceMenu(),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(

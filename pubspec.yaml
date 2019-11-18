@@ -21,6 +21,11 @@ dependencies:
     sdk: flutter
   flutter_barcode_scanner: ^0.1.7
   image_picker: ^0.6.1+4
+  retrofit: any
+  logger: any
+  sms: ^0.2.0
+  provider: ^3.1.0+1
+  intl: ^0.16.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -29,6 +34,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  retrofit_generator: any
+  build_runner: any
+  json_serializable: any
 
 
 # For information on the generic Dart part of this file, see the

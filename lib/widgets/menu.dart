@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myapplication/pages/attendancemenu.dart';
 import 'package:myapplication/pages/scaffoldmenu.dart';
-import 'package:myapplication/widgets/attendance.dart';
+import 'package:myapplication/widgets/students.dart';
 
 import 'menubox.dart';
 
@@ -18,18 +19,7 @@ class Menu extends StatelessWidget {
           children: <Widget>[
 
             Row(
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(8.0),
-                    width: MediaQuery.of(context).size.width,
-              height: 200.0,
-              color: Colors.purpleAccent,
-                  ),),
-              ],
-            ),
-
-            Row(
+              
               children: <Widget>[
                 Expanded(
                     child: MenuBox(
@@ -40,14 +30,24 @@ class Menu extends StatelessWidget {
                         border: Border.all(color: Colors.white),
                         borderRadius: BorderRadius.circular(100.0)),
                     child: CircleAvatar(
+                      
                       radius: 30.0,
-                      backgroundImage: AssetImage('assets/images/att4.png'),
+                      backgroundImage: AssetImage('assets/images/notepad.png'),
                     ),
                   ),
                   text: "SSG Event Attendance",
                   page: MaterialPageRoute(builder: (context) {
                     return AttendanceMenu(
-                      title: "SSG Event Attendance",
+                        tag: "tag1",
+                        icon: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white),
+                              borderRadius: BorderRadius.circular(100.0)),
+                          child: CircleAvatar(
+                            radius: 100.0,
+                            backgroundImage: AssetImage('assets/images/notepad.png'),
+                          ),
+                        ),
                     );
                   }),
                 )),
@@ -64,7 +64,7 @@ class Menu extends StatelessWidget {
                           borderRadius: BorderRadius.circular(100.0)),
                       child: CircleAvatar(
                         radius: 30.0,
-                        backgroundImage: AssetImage('assets/images/id.png'),
+                        backgroundImage: AssetImage('assets/images/id-card.png'),
                       ),
                     ),
                     text: "Automated ID System",
@@ -78,7 +78,7 @@ class Menu extends StatelessWidget {
                               borderRadius: BorderRadius.circular(100.0)),
                           child: CircleAvatar(
                             radius: 100.0,
-                            backgroundImage: AssetImage('assets/images/id.png'),
+                            backgroundImage: AssetImage('assets/images/id-card.png'),
                           ),
                         ),
                       );
@@ -93,36 +93,52 @@ class Menu extends StatelessWidget {
             Row(
               children: <Widget>[
                 Expanded(
-                    child: MenuBox(
-                  bgcolor: Colors.lightBlue,
-                  tag: "tag3",
-                  icon: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(100.0)),
-                    child: CircleAvatar(
-                      radius: 30.0,
-                      backgroundImage: AssetImage('assets/images/admin.png'),
-                    ),
-                  ),
-                  text: "Admin",
-                  page: MaterialPageRoute(builder: (context) {
-                    return ScaffoldMenu(
-                      title: "Admin",
-                      tag: "tag3",
-                      icon: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white),
-                            borderRadius: BorderRadius.circular(100.0)),
-                        child: CircleAvatar(
-                          radius: 100.0,
-                          backgroundImage:
-                              AssetImage('assets/images/admin.png'),
+                    child: Material(
+                    elevation: 10.0,
+                    borderRadius: BorderRadius.circular(25.0),
+                    color: Colors.lightBlue,
+                  
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(25.0),
+                      splashColor: Colors.yellowAccent,
+              
+                        onTap: (){
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context){
+                            return StudentList();
+                          }
+                        ));
+                        },
+                      child: Container(
+                        
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                          Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.white),
+                              borderRadius: BorderRadius.circular(100.0)),
+                          child: CircleAvatar(
+                            radius: 30.0,
+                            backgroundImage: AssetImage('assets/images/admin.png'),
+                          ),
                         ),
+                              SizedBox(height: 8.0,),
+                              
+                              Text("Admin",textAlign: TextAlign.center, style: TextStyle(
+                              fontSize: 13.0,
+                              color: Colors.white,
+                            ),)
+                            ],
+                          ),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25.0)),
+                        height: MediaQuery.of(context).size.height / 2 - 150.0,
                       ),
-                    );
-                  }),
-                )),
+                    ),
+                  )
+                    ),
                 SizedBox(
                   width: 8.0,
                 ),

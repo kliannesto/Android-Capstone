@@ -14,6 +14,7 @@ class MenuBox extends StatelessWidget {
                     elevation: 10.0,
                     borderRadius: BorderRadius.circular(25.0),
                     color: bgcolor,
+                  
                     child: InkWell(
                       borderRadius: BorderRadius.circular(25.0),
                       splashColor: Colors.yellowAccent,
