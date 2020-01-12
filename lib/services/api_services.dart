@@ -42,6 +42,9 @@ Future<List<SY>> getAcademicYears();
 
 @GET('/dateattendance/sem/{sem_id}/ay/{ay_id}')
 Future<List<EventDate>> getEventDatesBySemAndAY(@Path('sem_id')int semId,@Path('ay_id')int AyId);
+
+@GET('/dateattendance/sem/{sem_id}/ay/{ay_id}/stud/{st_id}')
+Future<List<AttendanceWithObjEvent>> getEventDatesByStudSemAndAY(@Path('sem_id')int semId,@Path('ay_id')int AyId, @Path('st_id')String stId);
 }
 
 
@@ -51,7 +54,7 @@ Future<List<EventDate>> getEventDatesBySemAndAY(@Path('sem_id')int semId,@Path('
 @JsonSerializable()
 class Student{
   int id;
-  int student_id;
+  String student_id;
   String fullname;
   String address;
   String mobileno;
@@ -81,13 +84,25 @@ Map<String, dynamic> toJson() => _$CourseToJson(this);
 @JsonSerializable()
 class Attendance{
   int id;
-  int event;
+  int eventDate;
   int student;
   int logType;
 
-  Attendance({this.id,this.event,this.student,this.logType});
+  Attendance({this.id,this.eventDate,this.student,this.logType});
 factory Attendance.fromJson(Map<String, dynamic> json) => _$AttendanceFromJson(json);
 Map<String, dynamic> toJson() => _$AttendanceToJson(this);
+
+}
+@JsonSerializable()
+class AttendanceWithObjEvent{
+  int id;
+  EventDate eventDate;
+  int student;
+  int logType;
+
+  AttendanceWithObjEvent({this.id,this.eventDate,this.student,this.logType});
+factory AttendanceWithObjEvent.fromJson(Map<String, dynamic> json) => _$AttendanceWithObjEventFromJson(json);
+Map<String, dynamic> toJson() => _$AttendanceWithObjEventToJson(this);
 
 }
 
@@ -97,8 +112,10 @@ class EventDate{
   Event event;
   int sy;
   DateTime eventdate;
+  bool isPresent;
+  int logType;
 
-  EventDate({this.id,this.event,this.sy,this.eventdate});
+  EventDate({this.id,this.event,this.sy,this.eventdate, this.isPresent,this.logType});
 factory EventDate.fromJson(Map<String, dynamic> json) => _$EventDateFromJson(json);
 Map<String, dynamic> toJson() => _$EventDateToJson(this);
 

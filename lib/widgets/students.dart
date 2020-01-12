@@ -3,8 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:myapplication/pages/add_student.dart';
 import 'package:myapplication/pages/studentsinfo.dart';
+import 'package:myapplication/provider/event_attendance.dart';
 import 'package:myapplication/services/api_services.dart';
 import 'package:dio/dio.dart';
+import 'package:provider/provider.dart';
 
 class StudentList extends StatefulWidget {
   StudentList({Key key}) : super(key: key);
@@ -22,18 +24,18 @@ class _StudentListState extends State<StudentList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-  //  getStudent();
+   getStudent();
   }
 
-  // getStudent() {
-  //   final _dio = Dio();
-  //   RestClient client = RestClient(_dio);
-  //   setState(() {
-  //     client.getStudents().then((res) {
-  //       students = res;
-  //     });
-  //   });
-  //}
+  getStudent() {
+    final _dio = Dio();
+    RestClient client = RestClient(_dio);
+    setState(() {
+      client.getStudents().then((res) {
+        students = res;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +65,11 @@ class _StudentListState extends State<StudentList> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       onTap: (){
+                        
+                            Provider.of<EventAttendance>(context).clearEventsAndAttendance();
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context){
-                            return StudentPage(id: snapshot.data[index].id);
+                            return StudentPage(id: snapshot.data[index].student_id);
                           } ));
                       },
                                           child: Container(
@@ -95,8 +99,18 @@ class _StudentListState extends State<StudentList> {
                     );
                   });
 
-                } else {
+                }
+                else if(snapshot.hasError){
+                
+                  return Center(
+                    child:Container (
+                      child: Text("An Error occured!"),
+                    ),
+                  );
 
+                }
+                 else {
+                   print(" Message sucessfully sent!");
                   return Center(
                     child: CircularProgressIndicator(),
                   );

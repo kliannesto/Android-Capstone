@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:myapplication/services/api_services.dart';
 import 'package:myapplication/utils/qr_codescan.dart';
-import 'package:myapplication/utils/sms.dart';
+
 
 class AttendanceScanner extends StatelessWidget {
   final String message;
@@ -64,9 +64,8 @@ class _AttendanceScannerBodyState extends State<AttendanceScannerBody> {
                       )),
                   items: snapshot.data
                       .map((event) => DropdownMenuItem<int>(
-                            child: Text(event.event.name +
-                                "-" +
-                                DateFormat('MMMMdy', 'en_US').format(event.eventdate)),
+                            child: Text('${DateFormat('MM-dd-yyyy').format(event.eventdate)}-${event.event.name}-${event.logType == 0 ? 'login':'logout'}') 
+                                ,
                             value: event.id,
                           ))
                       .toList(),
@@ -124,7 +123,7 @@ class _AttendanceScannerBodyState extends State<AttendanceScannerBody> {
                             Student st =
                                 await client.getStudentById(int.parse(qr));
                             Attendance at = Attendance(
-                                event: _event,
+                                eventDate: _event,
                                 student: st.id,
                                 logType: int.parse(message));
                             await client.saveAttendance(at);

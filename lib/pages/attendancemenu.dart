@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myapplication/pages/smsscanner.dart';
-
 import 'attendancescanner.dart';
 
 class AttendanceMenu extends StatelessWidget {
@@ -12,8 +10,13 @@ class AttendanceMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+   return Scaffold(
+      appBar: AppBar(
+        title: Text('SSG Attendance'),
+      ),
+      body:  SingleChildScrollView(
       child: Container(
+ 
         child: Column(
           children: <Widget>[
             Container(
@@ -31,7 +34,6 @@ class AttendanceMenu extends StatelessWidget {
                       end: FractionalOffset(1, 0),
                       stops: [0, 1],
                       tileMode: TileMode.clamp)),
-
 
               child: Column(
                 children: <Widget>[
@@ -67,7 +69,7 @@ class AttendanceMenu extends StatelessWidget {
                         );
                       }));
                     },
-                    splashColor: Colors.yellowAccent,
+                    splashColor: Colors.blue,
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -95,7 +97,7 @@ class AttendanceMenu extends StatelessWidget {
                           gradient: LinearGradient(
                               colors: <Color>[
                                 Colors.purple,
-                                Colors.pinkAccent,
+                                Colors.pinkAccent[100],
                               ],
                               begin: FractionalOffset(0, 0),
                               end: FractionalOffset(1, 0),
@@ -156,17 +158,14 @@ class AttendanceMenu extends StatelessWidget {
 
                           gradient: LinearGradient(
                               colors: <Color>[
-                                Colors.yellow,
-                                Colors.green,
+                                Colors.pinkAccent[100],
+                                Colors.purple
                               ],
                               begin: FractionalOffset(0, 0),
                               end: FractionalOffset(1, 0),
                               stops: [0, 1],
                               tileMode: TileMode.clamp),
 
-
-                          border:
-                              Border.all(color: Colors.greenAccent, width: 5.0),
                           borderRadius: BorderRadius.circular(25.0)),
                       padding: EdgeInsets.all(8.0),
                       height: 200.0,
@@ -179,7 +178,10 @@ class AttendanceMenu extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
+
+    
   }
 }
 

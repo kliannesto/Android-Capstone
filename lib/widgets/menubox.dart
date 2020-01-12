@@ -17,7 +17,7 @@ class MenuBox extends StatelessWidget {
                   
                     child: InkWell(
                       borderRadius: BorderRadius.circular(25.0),
-                      splashColor: Colors.yellowAccent,
+                      splashColor: Colors.yellowAccent[300],
               
                         onTap: (){
                           Navigator.of(context).push(page);

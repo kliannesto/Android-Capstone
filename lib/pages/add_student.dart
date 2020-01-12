@@ -11,7 +11,7 @@ class AddStudent extends StatefulWidget {
 
 class _AddStudentState extends State<AddStudent> {
   final _formKey = GlobalKey<FormState>();
-  int _studentid;
+  String _studentid;
   String _fullname;
   String _address;
   String _mobileno;
@@ -46,7 +46,7 @@ class _AddStudentState extends State<AddStudent> {
                        borderRadius: BorderRadius.circular(25.0)
                      ),
                    ),
-                   onSaved: (value) => _studentid = int.parse(value),
+                   onSaved: (value) => _studentid = value,
                  ),
 
                 SizedBox(height: 8.0,),

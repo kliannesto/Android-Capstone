@@ -9,7 +9,7 @@ part of 'api_services.dart';
 Student _$StudentFromJson(Map<String, dynamic> json) {
   return Student(
     id: json['id'] as int,
-    student_id: json['student_id'] as int,
+    student_id: json['student_id'] as String,
     fullname: json['fullname'] as String,
     address: json['address'] as String,
     mobileno: json['mobileno'] as String,
@@ -47,7 +47,7 @@ Map<String, dynamic> _$CourseToJson(Course instance) => <String, dynamic>{
 Attendance _$AttendanceFromJson(Map<String, dynamic> json) {
   return Attendance(
     id: json['id'] as int,
-    event: json['event'] as int,
+    eventDate: json['eventDate'] as int,
     student: json['student'] as int,
     logType: json['logType'] as int,
   );
@@ -56,7 +56,28 @@ Attendance _$AttendanceFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$AttendanceToJson(Attendance instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'event': instance.event,
+      'eventDate': instance.eventDate,
+      'student': instance.student,
+      'logType': instance.logType,
+    };
+
+AttendanceWithObjEvent _$AttendanceWithObjEventFromJson(
+    Map<String, dynamic> json) {
+  return AttendanceWithObjEvent(
+    id: json['id'] as int,
+    eventDate: json['eventDate'] == null
+        ? null
+        : EventDate.fromJson(json['eventDate'] as Map<String, dynamic>),
+    student: json['student'] as int,
+    logType: json['logType'] as int,
+  );
+}
+
+Map<String, dynamic> _$AttendanceWithObjEventToJson(
+        AttendanceWithObjEvent instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'eventDate': instance.eventDate,
       'student': instance.student,
       'logType': instance.logType,
     };
@@ -71,6 +92,8 @@ EventDate _$EventDateFromJson(Map<String, dynamic> json) {
     eventdate: json['eventdate'] == null
         ? null
         : DateTime.parse(json['eventdate'] as String),
+    isPresent: json['isPresent'] as bool,
+    logType: json['logType'] as int,
   );
 }
 
@@ -79,6 +102,8 @@ Map<String, dynamic> _$EventDateToJson(EventDate instance) => <String, dynamic>{
       'event': instance.event,
       'sy': instance.sy,
       'eventdate': instance.eventdate?.toIso8601String(),
+      'isPresent': instance.isPresent,
+      'logType': instance.logType,
     };
 
 Event _$EventFromJson(Map<String, dynamic> json) {
@@ -333,6 +358,30 @@ class _RestClient implements RestClient {
         data: _data);
     var value = _result.data
         .map((dynamic i) => EventDate.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return Future.value(value);
+  }
+
+  @override
+  getEventDatesByStudSemAndAY(semId, AyId, stId) async {
+    ArgumentError.checkNotNull(semId, 'semId');
+    ArgumentError.checkNotNull(AyId, 'AyId');
+    ArgumentError.checkNotNull(stId, 'stId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<List<dynamic>> _result = await _dio.request(
+        '/dateattendance/sem/$semId/ay/$AyId/stud/$stId',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) =>
+            AttendanceWithObjEvent.fromJson(i as Map<String, dynamic>))
         .toList();
     return Future.value(value);
   }
