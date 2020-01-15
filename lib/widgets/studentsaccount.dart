@@ -7,7 +7,7 @@ class StudentsAccount extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Student Profile"),
+        title: Text("Student Account"),
       ),
     );
   }

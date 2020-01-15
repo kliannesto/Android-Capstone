@@ -13,7 +13,7 @@ class AttendanceScanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("SMS Scanner"),
+        title: Text("ID Scanner"),
       ),
       body: AttendanceScannerBody(
         message: message,
@@ -82,44 +82,24 @@ class _AttendanceScannerBodyState extends State<AttendanceScannerBody> {
               }
             },
           ),
-          Expanded(
-            child: Container(
-              child: Align(
-                  alignment: Alignment.topCenter,
-                  child: Text(
-                    _qroutput,
-                    style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold),
-                  )),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white),
-                  borderRadius: BorderRadius.circular(25.0)),
-              height: 80.0,
-              width: MediaQuery.of(context).size.width,
-            ),
+          SizedBox(
+            height: 128.0,
           ),
           Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: RaisedButton(
-                        // child: CircleAvatar(
-                        //   radius: 30.0,
-                        // backgroundImage: AssetImage('assets/images/qr.png'),
-
-                        // ),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0)),
-                        onPressed: () async {
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        IconButton(
+          iconSize: 100,
+          icon: Icon(
+            Icons.camera_alt,
+            color: Colors.blue,
+          ),
+           onPressed: () async {
                           try {
                             final _dio = Dio();
                             RestClient client = RestClient(_dio);
+                            if(_event!=null){
                             String qr = await scanQR();
+                            print(_event);
                             Student st =
                                 await client.getStudentById(int.parse(qr));
                             Attendance at = Attendance(
@@ -130,28 +110,31 @@ class _AttendanceScannerBodyState extends State<AttendanceScannerBody> {
                             final snackBar = SnackBar(
                                 content: Text('Attendance successfully log!'));
                             Scaffold.of(context).showSnackBar(snackBar);
+                          }else{
+                            final snackBar = SnackBar(
+                                content: Text('Please Select an Event!'));
+                            Scaffold.of(context).showSnackBar(snackBar);
+                          }
                           } catch (e) {
+                            print(e);
                                  final snackBar = SnackBar(
                                 content: Text('Error occured!'));
                             Scaffold.of(context).showSnackBar(snackBar);
                             print(e.toString());
                           }
                         },
-                        child: Text(
-                          "Capture QR",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        color: Colors.blueAccent,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+
+        ),
+        SizedBox(
+          height: 8,
+        ),
+        Text('Tap the Icon button above to scan an ID',
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w300,
+                fontSize: 15.0)),
+      ]),
+    )
         ],
       ),
     );

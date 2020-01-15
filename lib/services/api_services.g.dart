@@ -110,14 +110,39 @@ Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
     id: json['id'] as int,
     name: json['name'] as String,
-    fines: (json['fines'] as num)?.toDouble(),
+    fines: json['fines'] as int,
   );
 }
 
 Map<String, dynamic> _$EventToJson(Event instance) => <String, dynamic>{
       'id': instance.id,
-      'fines': instance.fines,
       'name': instance.name,
+      'fines': instance.fines,
+    };
+
+EventDateWithoutObject _$EventDateWithoutObjectFromJson(
+    Map<String, dynamic> json) {
+  return EventDateWithoutObject(
+    id: json['id'] as int,
+    event: json['event'] as int,
+    sy: json['sy'] as int,
+    eventdate: json['eventdate'] as String,
+    semester: json['semester'] as int,
+    isPresent: json['isPresent'] as bool,
+    logType: json['logType'] as int,
+  );
+}
+
+Map<String, dynamic> _$EventDateWithoutObjectToJson(
+        EventDateWithoutObject instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'event': instance.event,
+      'semester': instance.semester,
+      'sy': instance.sy,
+      'eventdate': instance.eventdate,
+      'isPresent': instance.isPresent,
+      'logType': instance.logType,
     };
 
 SY _$SYFromJson(Map<String, dynamic> json) {
@@ -337,6 +362,45 @@ class _RestClient implements RestClient {
     var value = _result.data
         .map((dynamic i) => SY.fromJson(i as Map<String, dynamic>))
         .toList();
+    return Future.value(value);
+  }
+
+  @override
+  getEvents() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<List<dynamic>> _result = await _dio.request('/eventnames/',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) => Event.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return Future.value(value);
+  }
+
+  @override
+  addEventDate(eventdate) async {
+    ArgumentError.checkNotNull(eventdate, 'eventdate');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(eventdate.toJson() ?? <String, dynamic>{});
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        '/events/',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = EventDateWithoutObject.fromJson(_result.data);
     return Future.value(value);
   }
 

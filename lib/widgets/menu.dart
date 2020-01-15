@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapplication/pages/admin_menu.dart';
 import 'package:myapplication/pages/attendancemenu.dart';
 import 'package:myapplication/pages/scaffoldmenu.dart';
 import 'package:myapplication/widgets/students.dart';
@@ -68,10 +69,10 @@ class Menu extends StatelessWidget {
                         backgroundImage: AssetImage('assets/images/id-card.png'),
                       ),
                     ),
-                    text: "Automated ID System",
+                    text: "Automated SMS Report",
                     page: MaterialPageRoute(builder: (context) {
                       return ScaffoldMenu(
-                        title: "Automated ID System",
+                        title: "Automated SMS Report",
                         tag: "tag2",
                         icon: Container(
                           decoration: BoxDecoration(
@@ -94,52 +95,96 @@ class Menu extends StatelessWidget {
             Row(
               children: <Widget>[
                 Expanded(
-                    child: Material(
-                    elevation: 10.0,
-                    borderRadius: BorderRadius.circular(25.0),
-                    color: Colors.lightBlue,
-                  
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(25.0),
-                      splashColor: Colors.yellowAccent,
-              
-                        onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context){
-                            return StudentList();
-                          }
-                        ));
-                        },
-                      child: Container(
-                        
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                          Container(
+                  child: MenuBox(
+                    bgcolor: Colors.lightBlue,
+                    tag: "tag3",
+                    icon: Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 3.0, color: Colors.white),
+                          borderRadius: BorderRadius.circular(100.0)),
+                      child: CircleAvatar(
+                        radius: 30.0,
+                        backgroundImage: AssetImage('assets/images/admin.png'),
+                      ),
+                    ),
+                    text: "Admin Portal",
+                    page: MaterialPageRoute(builder: (context) {
+                      return AdminMenu(
+                        title: "Admin Portal",
+                        tag: "tag3",
+                        icon: Container(
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.white),
                               borderRadius: BorderRadius.circular(100.0)),
                           child: CircleAvatar(
-                            radius: 30.0,
+                            radius: 100.0,
                             backgroundImage: AssetImage('assets/images/admin.png'),
                           ),
                         ),
-                              SizedBox(height: 8.0,),
+                      );
+                    }),
+                  ),
+                ),
+                // Expanded(
+                //     child: Material(
+                //     elevation: 10.0,
+                //     borderRadius: BorderRadius.circular(25.0),
+                //     color: Colors.lightBlue,
+                  
+                //     child: InkWell(
+                //       borderRadius: BorderRadius.circular(25.0),
+                //       splashColor: Colors.yellowAccent,
+              
+                //         onTap: (){
+                //         Navigator.of(context).push(MaterialPageRoute(
+                //           builder: (context){
+                //             return ScaffoldMenu(
+                //               title: "Admin Portal",
+                //         tag: "tag3",
+                //         icon: Container(
+                //           decoration: BoxDecoration(
+                //               border: Border.all(color: Colors.white),
+                //               borderRadius: BorderRadius.circular(100.0)),
+                //           child: CircleAvatar(
+                //             radius: 100.0,
+                //             backgroundImage: AssetImage('assets/images/admin.png'),
+                //           ),
+                //         ),
+                //             );
+                //             //return StudentList();
+                //           }
+                //         ));
+                //         },
+                //       child: Container(
+                        
+                //           child: Column(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             crossAxisAlignment: CrossAxisAlignment.center,
+                //             children: <Widget>[
+                //           Container(
+                //           decoration: BoxDecoration(
+                //               border: Border.all(color: Colors.white),
+                //               borderRadius: BorderRadius.circular(100.0)),
+                //           child: CircleAvatar(
+                //             radius: 30.0,
+                //             backgroundImage: AssetImage('assets/images/admin.png'),
+                //           ),
+                //         ),
+                //               SizedBox(height: 8.0,),
                               
-                              Text("Admin",textAlign: TextAlign.center, style: TextStyle(
-                              fontSize: 13.0,
-                              color: Colors.white,
-                            ),)
-                            ],
-                          ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25.0)),
-                        height: MediaQuery.of(context).size.height / 2 - 150.0,
-                      ),
-                    ),
-                  )
-                    ),
+                //               Text("Admin Portal",textAlign: TextAlign.center, style: TextStyle(
+                //               fontSize: 13.0,
+                //               color: Colors.white,
+                //             ),)
+                //             ],
+                //           ),
+                //         decoration: BoxDecoration(
+                //             borderRadius: BorderRadius.circular(25.0)),
+                //         height: MediaQuery.of(context).size.height / 2 - 150.0,
+                //       ),
+                //     ),
+                //   )
+                //     ),
                 SizedBox(
                   width: 8.0,
                 ),
@@ -177,7 +222,7 @@ class Menu extends StatelessWidget {
                         ),
                               SizedBox(height: 8.0,),
                               
-                              Text("Student Account",textAlign: TextAlign.center, style: TextStyle(
+                              Text("Student Portal",textAlign: TextAlign.center, style: TextStyle(
                               fontSize: 13.0,
                               color: Colors.white,
                             ),)

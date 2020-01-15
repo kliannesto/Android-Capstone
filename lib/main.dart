@@ -48,7 +48,7 @@ class _HomepageState extends State<Homepage> {
             floating: false,
             flexibleSpace: FlexibleSpaceBar(
 
-              title: Text("BCC APP"),
+              title: Text("Home"),
               centerTitle: true,
               background: Image.asset('assets/images/header.jpeg',fit: BoxFit.cover,),
               

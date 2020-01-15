@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
 import 'package:myapplication/services/api_services.dart';
 import 'package:myapplication/utils/qr_codescan.dart';
 import 'package:myapplication/utils/sms.dart';
@@ -14,7 +12,7 @@ class SmsScanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("SMS Scanner"),
+        title: Text("ID Scanner"),
       ),
       body: SmsScannerBody(
         message: message,
@@ -37,13 +35,11 @@ class _SmsScannerBodyState extends State<SmsScannerBody> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-              children:[
-                IconButton(
-          iconSize: 80,
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        IconButton(
+          iconSize: 100,
           icon: Icon(
-            Icons.sms,
+            Icons.camera_alt,
             color: Colors.blue,
           ),
           onPressed: () async {
@@ -54,17 +50,22 @@ class _SmsScannerBodyState extends State<SmsScannerBody> {
             print(st);
             String msg = "";
             if (widget.message == "Log-in") {
-              msg = "${st.fullname} is entering the campus";
+              msg = "${st.fullname} is entering in BCC campus";
             } else {
-              msg = "${st.fullname} is exiting the campus";
+              msg = "${st.fullname} is leaving the BCC campus";
             }
             SMS.sendMessage(msg, st.guardiancontact, context);
           },
         ),
-        SizedBox(height: 8,),
-        Text('Tap the Icon butoon above to scan an ID')
-              ] 
-      ),
+        SizedBox(
+          height: 8,
+        ),
+        Text('Tap the Icon button above to scan an ID',
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w300,
+                fontSize: 15.0)),
+      ]),
     );
   }
 

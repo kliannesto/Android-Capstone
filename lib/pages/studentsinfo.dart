@@ -21,6 +21,30 @@ class StudentPage extends StatelessWidget {
       body: StudentDetail(
         stid: id,
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.monetization_on),
+        onPressed: () async {
+          Provider.of<EventAttendance>(context).calculate();
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Fines"),
+                  content:
+                      Consumer<EventAttendance>(builder: (context, event, _) {
+                    return Container(
+                      child: Row(
+                        children: <Widget>[
+                          Text("Total Amount:",),
+                          Expanded(child: Text(event.amount.toString(),style: TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.end,))
+                        ],
+                      ),
+                    );
+                  }),
+                );
+              });
+        },
+      ),
     );
   }
 }
@@ -38,8 +62,14 @@ class _StudentDetailState extends State<StudentDetail> {
   int _sem;
 
   List<EventDate> _events = [];
-   List<AttendanceWithObjEvent> attendances=[];
-  List<Color> colors =[Colors.lightBlue, Colors.pink, Colors.purple,Colors.green, Colors.orangeAccent];
+  List<AttendanceWithObjEvent> attendances = [];
+  List<Color> colors = [
+    Colors.lightBlue,
+    Colors.pink,
+    Colors.purple,
+    Colors.green,
+    Colors.orangeAccent
+  ];
   _StudentDetailState();
 
   StreamController<List<EventDate>> _eventstreamcontroller =
@@ -103,7 +133,7 @@ class _StudentDetailState extends State<StudentDetail> {
                 ),
                 DropdownButtonFormField(
                   value: _sem,
-                  hint: Text("Select Academic Year"),
+                  hint: Text("Select Semester"),
                   decoration: InputDecoration(
                       isDense: true,
                       contentPadding: EdgeInsets.all(8.0),
@@ -135,21 +165,20 @@ class _StudentDetailState extends State<StudentDetail> {
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0)),
                           onPressed: () async {
-                  
                             Provider.of<EventAttendance>(context)
                                 .geteventDates(_ay, _sem, widget.stid);
-       
-                     
-                            },
+                          },
                         ),
                       ),
                     ),
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left:8.0, right: 8),
-                  child: Divider())
+                    padding: EdgeInsets.only(left: 8.0, right: 8),
+                    child: Divider())
               ],
             ),
           ),
@@ -163,17 +192,21 @@ class _StudentDetailState extends State<StudentDetail> {
                   itemCount: event.events.length,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: (){
-                       //
+                      onTap: () {
+                        //
                       },
-                                          child: Container(
+                      child: Container(
                         padding: EdgeInsets.all(8.0),
                         child: Row(
                           children: <Widget>[
                             CircleAvatar(
                               radius: 24.0,
-                              backgroundColor: colors[Random().nextInt(colors.length)],
-                              child: Text(event.events[index].event.name.substring(0, 1),style: TextStyle(color: Colors.white)),
+                              backgroundColor:
+                                  colors[Random().nextInt(colors.length)],
+                              child: Text(
+                                  event.events[index].event.name
+                                      .substring(0, 1),
+                                  style: TextStyle(color: Colors.white)),
                             ),
                             SizedBox(
                               width: 8.0,
@@ -182,15 +215,26 @@ class _StudentDetailState extends State<StudentDetail> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(event.events[index].event.name, style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.w500)),
+                                Text(event.events[index].event.name,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500)),
                                 Text(event.events[index].event.fines.toString())
                               ],
-                            ),Expanded(
+                            ),
+                            Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: <Widget>[
-                                  event.events[index].eventdate !=null ? Text(DateFormat("MM-dd-yyyy").format(event.events[index].eventdate)): Text(''),
-                               event.events[index].isPresent !=null && event.events[index].isPresent ? Text('Present') : Text('absent')
+                                  event.events[index].eventdate != null
+                                      ? Text(DateFormat("MM-dd-yyyy").format(
+                                          event.events[index].eventdate))
+                                      : Text(''),
+                                  event.events[index].isPresent != null &&
+                                          event.events[index].isPresent
+                                      ? Text('Present')
+                                      : Text('absent')
                                 ],
                               ),
                             )

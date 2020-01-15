@@ -40,6 +40,12 @@ Future<List<EventDate>> getEventsNow();
 @GET('/sy/')
 Future<List<SY>> getAcademicYears();
 
+@GET('/eventnames/')
+Future<List<Event>> getEvents();
+
+@POST('/events/')
+Future<EventDateWithoutObject> addEventDate(@Body() EventDateWithoutObject eventdate);
+
 @GET('/dateattendance/sem/{sem_id}/ay/{ay_id}')
 Future<List<EventDate>> getEventDatesBySemAndAY(@Path('sem_id')int semId,@Path('ay_id')int AyId);
 
@@ -124,14 +130,34 @@ Map<String, dynamic> toJson() => _$EventDateToJson(this);
 @JsonSerializable()
 class Event{
   int id;
-  double fines;
   String name;
+  int fines;
+
 
   Event({this.id,this.name,this.fines});
 factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
 Map<String, dynamic> toJson() => _$EventToJson(this);
 
 }
+
+@JsonSerializable()
+class EventDateWithoutObject{
+  int id;
+  int event;
+  int semester;
+  int sy;
+  String eventdate;
+  bool isPresent;
+  int logType;
+
+  EventDateWithoutObject({this.id,this.event,this.sy,this.eventdate,this.semester,this.isPresent,this.logType});
+factory EventDateWithoutObject.fromJson(Map<String, dynamic> json) => _$EventDateWithoutObjectFromJson(json);
+Map<String, dynamic> toJson() => _$EventDateWithoutObjectToJson(this);
+
+}
+
+
+
 
 @JsonSerializable()
 class SY{

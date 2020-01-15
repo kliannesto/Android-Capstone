@@ -11,7 +11,7 @@ class ScaffoldMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("MENU"),
+        title: Text("ID Scanner"),
       ),
       body: SmsMenuBody(menu:title,icon: icon,tag:tag),
 

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:myapplication/pages/add_event.dart';
 import 'package:myapplication/pages/smsscanner.dart';
+import 'package:myapplication/widgets/students.dart';
 
-class SmsMenuBody extends StatelessWidget {
+class StudenList extends StatelessWidget {
   final String menu;
   final Container icon;
   final String tag;
-  const SmsMenuBody({Key key, this.menu, this.icon, this.tag})
+  const StudenList({Key key, this.menu, this.icon, this.tag})
       : super(key: key);
 
   @override
@@ -60,8 +62,7 @@ class SmsMenuBody extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context) {
-                          return SmsScanner(
-                            message: "Log-in",
+                          return AddEvent(
                           );
                         }));
                       },
@@ -72,7 +73,7 @@ class SmsMenuBody extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Icon(
-                              Icons.camera,
+                              Icons.event,
                               color: Colors.white,
                               size: 50.0,
                             ),
@@ -80,7 +81,7 @@ class SmsMenuBody extends StatelessWidget {
                               height: 8.0,
                             ),
                             Text(
-                              "LOG-IN",
+                              "Add Event",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15.0,
@@ -106,8 +107,7 @@ class SmsMenuBody extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context) {
-                          return SmsScanner(
-                            message: "Log-out",
+                          return StudentList(
                           );
                         }));
                       },
@@ -118,7 +118,7 @@ class SmsMenuBody extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             Icon(
-                              Icons.camera,
+                              Icons.list,
                               color: Colors.white,
                               size: 50.0,
                             ),
@@ -126,7 +126,7 @@ class SmsMenuBody extends StatelessWidget {
                               height: 8.0,
                             ),
                             Text(
-                              "LOG-OUT",
+                              "Students List",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15.0,
@@ -164,7 +164,7 @@ class _HomeSMSState extends State<HomeSMS> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
-        body: SmsMenuBody(),
+        body: StudenList(),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(

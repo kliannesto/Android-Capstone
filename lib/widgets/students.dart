@@ -42,7 +42,7 @@ class _StudentListState extends State<StudentList> {
     client = RestClient(_dio);
     return Scaffold(
         appBar: AppBar(
-          title: Text("Add Student"),
+          title: Text("Students List"),
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),

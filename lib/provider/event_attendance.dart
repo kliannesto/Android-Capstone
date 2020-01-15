@@ -7,6 +7,7 @@ class EventAttendance with ChangeNotifier {
   List<EventDate> events=[];
   List<AttendanceWithObjEvent> atts =[];
   
+  double amount= 0;
   final _dio = Dio();
   RestClient client;
   EventAttendance(){
@@ -14,13 +15,26 @@ class EventAttendance with ChangeNotifier {
     client = RestClient(_dio);
 
   }
-  
+
   void clearEventsAndAttendance(){
 
     atts = [];
     events = [];
 
    notifyListeners();
+  }
+  
+  void calculate() async {
+    amount = 0;
+    for(EventDate e in events)
+    {
+      
+      if(!e.isPresent){
+        print(e.event.fines);
+        amount = amount + e.event.fines;
+      }
+    }
+    notifyListeners();
   }
 
   void geteventDates(int ay, int sem, String stId) async{
@@ -36,7 +50,7 @@ class EventAttendance with ChangeNotifier {
       events[i].isPresent = true;
       print('xd $i ${events[i].id}');
      } else {
-
+       events[i].isPresent = false;
      }
     }
 
