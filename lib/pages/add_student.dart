@@ -48,6 +48,7 @@ class _AddStudentState extends State<AddStudent> {
                 SizedBox(
                   height: 20,
                 ),
+                
                 Text('Student Id',
                     style:
                         TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),

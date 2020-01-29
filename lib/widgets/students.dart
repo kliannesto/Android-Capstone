@@ -110,7 +110,7 @@ class _StudentListState extends State<StudentList> {
 
                 }
                  else {
-                   print(" Message sucessfully sent!");
+                   print("!");
                   return Center(
                     child: CircularProgressIndicator(),
                   );

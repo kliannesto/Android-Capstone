@@ -201,7 +201,7 @@ class Menu extends StatelessWidget {
                         onTap: (){
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context){
-                            return StudentsAccount();
+                            return StudentAccount();
                           }
                         ));
                         },

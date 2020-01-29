@@ -98,7 +98,9 @@ class _AddEventState extends State<AddEvent> {
                 SizedBox(
                   height: 8.0,
                 ),
-                Text('Date'),
+                Text('Date',
+                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
+                ),
                 
       DateTimeField(
         format: format,
