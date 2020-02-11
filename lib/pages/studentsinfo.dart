@@ -203,9 +203,8 @@ class _StudentDetailState extends State<StudentDetail> {
                               radius: 24.0,
                               backgroundColor:
                                   colors[Random().nextInt(colors.length)],
-                              child: Text(
-                                  event.events[index].event.name
-                                      .substring(0, 1),
+                              child: Text(event.events[index].event.name != null? event.events[index].event.name.substring(0, 1)
+                                      : '',
                                   style: TextStyle(color: Colors.white)),
                             ),
                             SizedBox(
@@ -215,7 +214,7 @@ class _StudentDetailState extends State<StudentDetail> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(event.events[index].event.name,
+                                Text(event.events[index].event.name != null ? event.events[index].event.name:'',
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 16,

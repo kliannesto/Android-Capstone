@@ -68,7 +68,9 @@ AttendanceWithObjEvent _$AttendanceWithObjEventFromJson(
     eventDate: json['eventDate'] == null
         ? null
         : EventDate.fromJson(json['eventDate'] as Map<String, dynamic>),
-    student: json['student'] as int,
+    student: json['student'] == null
+        ? null
+        : Student.fromJson(json['student'] as Map<String, dynamic>),
     logType: json['logType'] as int,
   );
 }
@@ -143,6 +145,18 @@ Map<String, dynamic> _$EventDateWithoutObjectToJson(
       'eventdate': instance.eventdate,
       'isPresent': instance.isPresent,
       'logType': instance.logType,
+    };
+
+SMSLog _$SMSLogFromJson(Map<String, dynamic> json) {
+  return SMSLog(
+    log: json['log'] as String,
+    recipient: json['recipient'] as String,
+  );
+}
+
+Map<String, dynamic> _$SMSLogToJson(SMSLog instance) => <String, dynamic>{
+      'log': instance.log,
+      'recipient': instance.recipient,
     };
 
 SY _$SYFromJson(Map<String, dynamic> json) {
@@ -306,6 +320,83 @@ class _RestClient implements RestClient {
         data: _data);
     final value = Attendance.fromJson(_result.data);
     return Future.value(value);
+  }
+
+  @override
+  saveSMSLog(smslog) async {
+    ArgumentError.checkNotNull(smslog, 'smslog');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(smslog.toJson() ?? <String, dynamic>{});
+    final Response<Map<String, dynamic>> _result = await _dio.request(
+        '/smslogs/',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = SMSLog.fromJson(_result.data);
+    return Future.value(value);
+  }
+
+  @override
+  getSMSLogs() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<List<dynamic>> _result = await _dio.request('/smslogs/',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) => SMSLog.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return Future.value(value);
+  }
+
+  @override
+  getSSGAttendanceLogs() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<List<dynamic>> _result = await _dio.request(
+        '/attendancelists',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) =>
+            AttendanceWithObjEvent.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return Future.value(value);
+  }
+
+  @override
+  deleteSSGAttendanceLogs(id) async {
+    ArgumentError.checkNotNull(id, 'id');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    await _dio.request<void>('/attendance/$id/',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'DELETE',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    return Future.value(null);
   }
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -30,6 +32,18 @@ Future<List<Course>> getCourses();
 
 @POST('/attendance/')
 Future<Attendance> saveAttendance(@Body() Attendance attendance);
+
+@POST('/smslogs/')
+Future<SMSLog> saveSMSLog(@Body() SMSLog smslog);
+
+@GET('/smslogs/')
+Future<List<SMSLog>> getSMSLogs();
+
+@GET('/attendancelists')
+Future<List<AttendanceWithObjEvent>> getSSGAttendanceLogs();
+
+@DELETE('/attendance/{id}/')
+Future<void> deleteSSGAttendanceLogs(@Path('id') int id);
 
 @GET('/eventLists/')
 Future<List<EventDate>> getEventDates();
@@ -103,7 +117,7 @@ Map<String, dynamic> toJson() => _$AttendanceToJson(this);
 class AttendanceWithObjEvent{
   int id;
   EventDate eventDate;
-  int student;
+  Student student;
   int logType;
 
   AttendanceWithObjEvent({this.id,this.eventDate,this.student,this.logType});
@@ -154,6 +168,16 @@ class EventDateWithoutObject{
 factory EventDateWithoutObject.fromJson(Map<String, dynamic> json) => _$EventDateWithoutObjectFromJson(json);
 Map<String, dynamic> toJson() => _$EventDateWithoutObjectToJson(this);
 
+}
+
+@JsonSerializable()
+class SMSLog{
+  String log;
+  String recipient;
+
+  SMSLog({this.log, this.recipient});
+  factory SMSLog.fromJson(Map<String, dynamic> json) => _$SMSLogFromJson(json);
+Map<String, dynamic> toJson() => _$SMSLogToJson(this);
 }
 
 

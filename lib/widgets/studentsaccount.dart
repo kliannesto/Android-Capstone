@@ -17,37 +17,49 @@ class _StudentAccountState extends State<StudentAccount> {
         title: Text("Student Account"),
       ),
       body: SingleChildScrollView(
-      //     child: Padding(
-      //   padding: const EdgeInsets.all(24.0),
-      //   child: Form(
-      //     child: Row(
-      //       children: <Widget>[
-      //         Container(
-      //           child: Column(
-      //             crossAxisAlignment: CrossAxisAlignment.start,
-      //             children: <Widget>[
-      //               Text('Type Your ID',
-      //                   style:
-      //                       TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-      //               TextFormField(
-      //                 keyboardType: TextInputType.number,
-      //                 onSaved: (value) => _studentid = value,
-      //               ),
-      //             ],
-      //           ),
-      //         ),
-      //         SizedBox(
-      //           width: 8.0,
-      //         ),
-      //         Icon(
-      //                             Icons.camera,
-      //                             color: Colors.white,
-      //                             size: 20.0,
-      //                           ),
-      //       ],
-      //     ),
-      //   ),
-      // )
-    ));
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              Center(
+                  child: Icon(
+                Icons.account_circle,
+                size: 70,
+                color: Colors.blueAccent,
+              )),
+              SizedBox(
+                height: 20,
+              ),
+              Text('Type your ID',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              TextFormField(
+                keyboardType: TextInputType.number,
+                onSaved: (value) => _studentid = value,
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: RaisedButton(
+                      padding: EdgeInsets.all(8.0),
+                      color: Colors.lightBlue,
+                      child: Text(
+                        "Search",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0)),
+                      onPressed: () {},
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

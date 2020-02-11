@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapplication/pages/logs_page.dart';
 import 'package:myapplication/pages/smsscanner.dart';
 
 class SmsMenuBody extends StatelessWidget {
@@ -140,12 +141,63 @@ class SmsMenuBody extends StatelessWidget {
                         padding: EdgeInsets.all(8.0),
                         height: 150.0,
                         width: MediaQuery.of(context).size.width / 2 - 4,
+
+                        
                       ),
+                      
+                    ),
+                  ),
+                  SizedBox(
+                    width: 8.0,
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(25.0),
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return LogsPage();
+                        }));
+                      },
+                      splashColor: Colors.yellowAccent,
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.list,
+                              color: Colors.white,
+                              size: 50.0,
+                            ),
+                            SizedBox(
+                              height: 8.0,
+                            ),
+                            Text(
+                              "SMS LOGS",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.w300),
+                            )
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.lightBlue,
+                            borderRadius: BorderRadius.circular(25.0)),
+                        padding: EdgeInsets.all(8.0),
+                        height: 150.0,
+                        width: MediaQuery.of(context).size.width / 2 - 4,
+
+                        
+                      ),
+                      
                     ),
                   ),
                 ],
               ),
-            ))
+            )),
+
           ],
         ),
       ),

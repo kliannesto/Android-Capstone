@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'package:myapplication/services/api_services.dart';
 import 'package:myapplication/utils/qr_codescan.dart';
 import 'package:myapplication/utils/sms.dart';
@@ -50,9 +51,9 @@ class _SmsScannerBodyState extends State<SmsScannerBody> {
             print(st);
             String msg = "";
             if (widget.message == "Log-in") {
-              msg = "${st.fullname} is entering in BCC campus";
+              msg = "${st.fullname} is entering in BCC campus on ${DateFormat("MM-dd-yyyy").format(DateTime.now())} ${ DateFormat().add_jm().format(DateTime.now())}";
             } else {
-              msg = "${st.fullname} is leaving the BCC campus";
+              msg = "${st.fullname} is leaving the BCC campus on ${DateFormat("MM-dd-yyyy").format(DateTime.now())} ${DateFormat().add_jm().format(DateTime.now())}";
             }
             SMS.sendMessage(msg, st.guardiancontact, context);
           },
