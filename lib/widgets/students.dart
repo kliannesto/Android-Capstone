@@ -69,7 +69,7 @@ class _StudentListState extends State<StudentList> {
                             Provider.of<EventAttendance>(context).clearEventsAndAttendance();
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context){
-                            return StudentPage(id: snapshot.data[index].student_id);
+                            return StudentPage(student: snapshot.data[index]);
                           } ));
                       },
                                           child: Container(

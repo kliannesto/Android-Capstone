@@ -3,11 +3,12 @@ import 'package:myapplication/services/api_services.dart';
 import 'package:dio/dio.dart';
 
 class EventAttendance with ChangeNotifier {
-
   List<AttendanceWithObjEvent> ssglogs = [];
   List<SMSLog> smslogs = [];
   List<EventDate> events = [];
   List<AttendanceWithObjEvent> atts = [];
+  List<Student> students = [];
+
 
   double amount = 0;
   final _dio = Dio();
@@ -15,6 +16,13 @@ class EventAttendance with ChangeNotifier {
   EventAttendance() {
     _dio.options.headers["Content-Type"] = "application/json";
     client = RestClient(_dio);
+  }
+  
+  void getStudents() async{
+   _dio.options.headers["Content-Type"] = "application/json";
+    client = RestClient(_dio);
+    students = await client.getStudents();
+    notifyListeners();
   }
 
   void clearEventsAndAttendance() {
@@ -26,10 +34,16 @@ class EventAttendance with ChangeNotifier {
 
   void calculate() async {
     amount = 0;
-    for (EventDate e in events) {
+    for (AttendanceWithObjEvent e in atts) {
       if (!e.isPresent) {
-        print(e.event.fines);
-        amount = amount + e.event.fines;
+        print("bhjjh");
+        if(e.student.religion!='Catholic' && e.eventDate.event.name=='Mass'){
+          print("n sud");
+        amount=amount+0;
+        }else {
+          amount = amount + e.eventDate.event.fines;
+        }
+        
       }
     }
     notifyListeners();
@@ -52,34 +66,14 @@ class EventAttendance with ChangeNotifier {
     notifyListeners();
   }
 
-  void getSSGAttendanceLogs() async{
+  void getSSGAttendanceLogs() async {
     ssglogs = await client.getSSGAttendanceLogs();
     notifyListeners();
   }
 
-  void geteventDates(int ay, int sem, String stId) async {
+  void geteventDates(int ay, int sem, String stId, String religion) async {
     atts = await client.getEventDatesByStudSemAndAY(sem, ay, stId);
-    events = await client.getEventDatesBySemAndAY(sem, ay);
-    print(atts);
-    print(events[0].event.name);
-    // print(atts);
-
-    for (int i = 0; i < events.length; i++) {
-      print(events[i].id);
-
-      if (atts.where((e) => e.eventDate.id == events[i].id).toList().length >
-          0) {
-        events[i].isPresent = true;
-        print('xd $i ${events[i].id}');
-      } else {
-        events[i].isPresent = false;
-      }
-    }
-
-    for (int i = 0; i < atts.length; i++) {
-      print('A-${atts[i].eventDate.id} - $i');
-    }
-
     notifyListeners();
   }
+  
 }

@@ -103,6 +103,7 @@ class _AttendanceScannerBodyState extends State<AttendanceScannerBody> {
                             Student st =
                                 await client.getStudentById(int.parse(qr));
                             Attendance at = Attendance(
+                              isPresent: true,
                                 eventDate: _event,
                                 student: st.id,
                                 logType: int.parse(message));

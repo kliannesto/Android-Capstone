@@ -9,8 +9,8 @@ import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 
 class StudentPage extends StatelessWidget {
-  final String id;
-  const StudentPage({Key key, @required this.id}) : super(key: key);
+  final Student student;
+  const StudentPage({Key key, @required this.student}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class StudentPage extends StatelessWidget {
         title: Text("Students Info"),
       ),
       body: StudentDetail(
-        stid: id,
+        student: student,
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.monetization_on),
@@ -50,8 +50,8 @@ class StudentPage extends StatelessWidget {
 }
 
 class StudentDetail extends StatefulWidget {
-  final String stid;
-  StudentDetail({Key key, this.stid}) : super(key: key);
+  final Student student;
+  StudentDetail({Key key, this.student}) : super(key: key);
 
   @override
   _StudentDetailState createState() => _StudentDetailState();
@@ -169,7 +169,7 @@ class _StudentDetailState extends State<StudentDetail> {
                               borderRadius: BorderRadius.circular(25.0)),
                           onPressed: () async {
                             Provider.of<EventAttendance>(context)
-                                .geteventDates(_ay, _sem, widget.stid);
+                                .geteventDates(_ay, _sem, widget.student.student_id,widget.student.religion);
                           },
                         ),
                       ),
@@ -189,8 +189,9 @@ class _StudentDetailState extends State<StudentDetail> {
             child: Consumer<EventAttendance>(
               builder: (context, event, _) {
                 return ListView.builder(
-                  itemCount: event.events.length,
+                  itemCount: event.atts.length,
                   itemBuilder: (context, index) {
+                    print(event.atts[index].isPresent);
                     return InkWell(
                       onTap: () {
                         //
@@ -203,7 +204,7 @@ class _StudentDetailState extends State<StudentDetail> {
                               radius: 24.0,
                               backgroundColor:
                                   colors[Random().nextInt(colors.length)],
-                              child: Text(event.events[index].event.name != null? event.events[index].event.name.substring(0, 1)
+                              child: Text(event.atts[index].eventDate.event.name != null? event.atts[index].eventDate.event.name.substring(0, 1)
                                       : '',
                                   style: TextStyle(color: Colors.white)),
                             ),
@@ -214,24 +215,26 @@ class _StudentDetailState extends State<StudentDetail> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(event.events[index].event.name != null ? event.events[index].event.name:'',
+                                Text(event.atts[index].eventDate.event.name != null ? event.atts[index].eventDate.event.name:'',
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500)),
-                                Text(event.events[index].event.fines.toString())
+                                Text(event.atts[index].eventDate.event.fines.toString())
                               ],
                             ),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: <Widget>[
-                                  event.events[index].eventdate != null
+                                  event.atts[index].eventDate.eventdate != null
                                       ? Text(DateFormat("MM-dd-yyyy").format(
-                                          event.events[index].eventdate))
+                                          event.atts[index].eventDate.eventdate))
                                       : Text(''),
-                                  event.events[index].isPresent != null &&
-                                          event.events[index].isPresent
+                                  event.atts[index].isPresent != null &&
+                                           event.atts[index].isPresent ||
+                                 ( event.atts[index].student.religion!='Catholic' && event.atts[index].eventDate.event.name=='Mass')
+
                                       ? Text('Present')
                                       : Text('absent')
                                 ],

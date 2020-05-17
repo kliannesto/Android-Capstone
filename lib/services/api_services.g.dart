@@ -16,6 +16,7 @@ Student _$StudentFromJson(Map<String, dynamic> json) {
     guardiancontact: json['guardiancontact'] as String,
     course: json['course'] as int,
     isActive: json['isActive'] as bool,
+    religion: json['religion'] as String,
   );
 }
 
@@ -28,6 +29,7 @@ Map<String, dynamic> _$StudentToJson(Student instance) => <String, dynamic>{
       'guardiancontact': instance.guardiancontact,
       'course': instance.course,
       'isActive': instance.isActive,
+      'religion': instance.religion,
     };
 
 Course _$CourseFromJson(Map<String, dynamic> json) {
@@ -50,6 +52,7 @@ Attendance _$AttendanceFromJson(Map<String, dynamic> json) {
     eventDate: json['eventDate'] as int,
     student: json['student'] as int,
     logType: json['logType'] as int,
+    isPresent: json['isPresent'] as bool,
   );
 }
 
@@ -59,6 +62,26 @@ Map<String, dynamic> _$AttendanceToJson(Attendance instance) =>
       'eventDate': instance.eventDate,
       'student': instance.student,
       'logType': instance.logType,
+      'isPresent': instance.isPresent,
+    };
+
+AttendanceWithoutEventDate _$AttendanceWithoutEventDateFromJson(
+    Map<String, dynamic> json) {
+  return AttendanceWithoutEventDate(
+    id: json['id'] as int,
+    student: json['student'] as int,
+    logType: json['logType'] as int,
+    isPresent: json['isPresent'] as bool,
+  );
+}
+
+Map<String, dynamic> _$AttendanceWithoutEventDateToJson(
+        AttendanceWithoutEventDate instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'student': instance.student,
+      'logType': instance.logType,
+      'isPresent': instance.isPresent,
     };
 
 AttendanceWithObjEvent _$AttendanceWithObjEventFromJson(
@@ -72,6 +95,7 @@ AttendanceWithObjEvent _$AttendanceWithObjEventFromJson(
         ? null
         : Student.fromJson(json['student'] as Map<String, dynamic>),
     logType: json['logType'] as int,
+    isPresent: json['isPresent'] as bool,
   );
 }
 
@@ -82,6 +106,7 @@ Map<String, dynamic> _$AttendanceWithObjEventToJson(
       'eventDate': instance.eventDate,
       'student': instance.student,
       'logType': instance.logType,
+      'isPresent': instance.isPresent,
     };
 
 EventDate _$EventDateFromJson(Map<String, dynamic> json) {
@@ -145,6 +170,37 @@ Map<String, dynamic> _$EventDateWithoutObjectToJson(
       'eventdate': instance.eventdate,
       'isPresent': instance.isPresent,
       'logType': instance.logType,
+    };
+
+EventDateWithAttendances _$EventDateWithAttendancesFromJson(
+    Map<String, dynamic> json) {
+  return EventDateWithAttendances(
+    id: json['id'] as int,
+    event: json['event'] as int,
+    sy: json['sy'] as int,
+    eventdate: json['eventdate'] as String,
+    semester: json['semester'] as int,
+    isPresent: json['isPresent'] as bool,
+    logType: json['logType'] as int,
+    attendances: (json['attendances'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AttendanceWithoutEventDate.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$EventDateWithAttendancesToJson(
+        EventDateWithAttendances instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'event': instance.event,
+      'semester': instance.semester,
+      'sy': instance.sy,
+      'eventdate': instance.eventdate,
+      'isPresent': instance.isPresent,
+      'logType': instance.logType,
+      'attendances': instance.attendances,
     };
 
 SMSLog _$SMSLogFromJson(Map<String, dynamic> json) {
@@ -491,7 +547,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = EventDateWithoutObject.fromJson(_result.data);
+    final value = EventDateWithAttendances.fromJson(_result.data);
     return Future.value(value);
   }
 

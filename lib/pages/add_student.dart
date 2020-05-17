@@ -16,6 +16,7 @@ class _AddStudentState extends State<AddStudent> {
   String _address;
   String _mobileno;
   String _gcontact;
+  String _religion;
   int _course;
 
   final _dio = Dio();
@@ -48,13 +49,18 @@ class _AddStudentState extends State<AddStudent> {
                 SizedBox(
                   height: 20,
                 ),
-                
                 Text('Student Id',
                     style:
                         TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
                 TextFormField(
                   keyboardType: TextInputType.number,
                   onSaved: (value) => _studentid = value,
+                  validator: (String val) {
+                    if (val == '') {
+                      return "Fill this form!";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height: 8.0,
@@ -65,6 +71,12 @@ class _AddStudentState extends State<AddStudent> {
                 TextFormField(
                   keyboardType: TextInputType.text,
                   onSaved: (value) => _fullname = value,
+                  validator: (String val) {
+                    if (val == '') {
+                      return "Fill this form!";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height: 8.0,
@@ -75,6 +87,12 @@ class _AddStudentState extends State<AddStudent> {
                 TextFormField(
                   keyboardType: TextInputType.text,
                   onSaved: (value) => _address = value,
+                  validator: (String val) {
+                    if (val == '') {
+                      return "Fill this form!";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height: 8.0,
@@ -85,6 +103,12 @@ class _AddStudentState extends State<AddStudent> {
                 TextFormField(
                   keyboardType: TextInputType.text,
                   onSaved: (value) => _mobileno = value,
+                  validator: (String val) {
+                    if (val == '') {
+                      return "Fill this form!";
+                    }
+                    return null;
+                  },
                 ),
                 SizedBox(
                   height: 8.0,
@@ -95,6 +119,47 @@ class _AddStudentState extends State<AddStudent> {
                 TextFormField(
                   keyboardType: TextInputType.text,
                   onSaved: (value) => _gcontact = value,
+                  validator: (String val) {
+                    if (val == '') {
+                      return "Fill this form!";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                Text('Religion',
+                    style:
+                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: DropdownButtonFormField<String>(
+                    validator: (String val) {
+                      if (val == null) {
+                        return "Fill this form!";
+                      }
+                      return null;
+                    },
+                    value: _religion,
+                    items: <String>[
+                      'Catholic',
+                      'Muslim',
+                      'SDA',
+                      'INC',
+                      'Others'
+                    ].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: new Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String val) {
+                      setState(() {
+                        _religion = val;
+                      });
+                    },
+                  ),
                 ),
                 SizedBox(
                   height: 8.0,
@@ -110,6 +175,12 @@ class _AddStudentState extends State<AddStudent> {
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return DropdownButtonFormField(
+                        validator: (int val) {
+                          if (val == null) {
+                            return "Fill this form!";
+                          }
+                          return null;
+                        },
                         value: _course,
                         hint: Text("Select Course"),
                         decoration: InputDecoration(
@@ -159,31 +230,17 @@ class _AddStudentState extends State<AddStudent> {
 
                           _formKey.currentState.save();
 
-                          print("Name:" + _fullname);
-
-                          print("ID:" + _studentid.toString());
-
-                          print("address" + _address);
-
-                          print("Mobile" + _mobileno);
-
-                          print("GContact" + _gcontact);
-
-                          print("Course" + _course.toString());
-                          if (_course != null &&
-                              _fullname != null &&
-                              _studentid != null &&
-                              _gcontact != null &&
-                              _address != null &&
-                              _mobileno != null) {
+                          if (_formKey.currentState.validate()) {
                             Student student = Student(
-                                fullname: _fullname,
-                                student_id: _studentid,
-                                address: _address,
-                                mobileno: _mobileno,
-                                guardiancontact: _gcontact,
-                                course: _course,
-                                isActive: true);
+                              fullname: _fullname,
+                              student_id: _studentid,
+                              address: _address,
+                              mobileno: _mobileno,
+                              guardiancontact: _gcontact,
+                              course: _course,
+                              isActive: true,
+                              religion: _religion,
+                            );
 
                             print('${student.course}');
 
@@ -200,13 +257,6 @@ class _AddStudentState extends State<AddStudent> {
                             await client.addStudent(student);
 
                             Navigator.pop(context);
-                          } else {
-                            print("bcc");
-                            final snackBar = SnackBar(
-                                content: Text('Fill in all the fields!'));
-
-                          // Find the Scaffold in the widget tree and use it to show a SnackBar.
-                            _scaffoldKey.currentState.showSnackBar(snackBar);
                           }
                         },
                       ),

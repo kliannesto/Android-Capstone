@@ -58,13 +58,16 @@ Future<List<SY>> getAcademicYears();
 Future<List<Event>> getEvents();
 
 @POST('/events/')
-Future<EventDateWithoutObject> addEventDate(@Body() EventDateWithoutObject eventdate);
+Future<EventDateWithAttendances> addEventDate(@Body() EventDateWithAttendances eventdate);
 
 @GET('/dateattendance/sem/{sem_id}/ay/{ay_id}')
 Future<List<EventDate>> getEventDatesBySemAndAY(@Path('sem_id')int semId,@Path('ay_id')int AyId);
 
 @GET('/dateattendance/sem/{sem_id}/ay/{ay_id}/stud/{st_id}')
 Future<List<AttendanceWithObjEvent>> getEventDatesByStudSemAndAY(@Path('sem_id')int semId,@Path('ay_id')int AyId, @Path('st_id')String stId);
+
+//@GET('/dateattendance/sem/{sem_id}/ay/{ay_id}/course/{course_id}')
+//Future<List<AttendanceWithObjEvent>> getEventDatesByCourseSemAndAY(@Path('sem_id')int semId,@Path('ay_id')int AyId, @Path('course_id')String course_id);
 }
 
 
@@ -81,8 +84,9 @@ class Student{
   String guardiancontact;
   int course;
   bool isActive;
+  String religion;
 
-  Student({this.id,this.student_id,this.fullname,this.address,this.mobileno,this.guardiancontact,this.course,this.isActive});
+  Student({this.id,this.student_id,this.fullname,this.address,this.mobileno,this.guardiancontact,this.course,this.isActive, this.religion});
 factory Student.fromJson(Map<String, dynamic> json) => _$StudentFromJson(json);
 Map<String, dynamic> toJson() => _$StudentToJson(this);
 
@@ -107,10 +111,23 @@ class Attendance{
   int eventDate;
   int student;
   int logType;
+  bool isPresent;
 
-  Attendance({this.id,this.eventDate,this.student,this.logType});
+  Attendance({this.id,this.eventDate,this.student,this.logType, this.isPresent});
 factory Attendance.fromJson(Map<String, dynamic> json) => _$AttendanceFromJson(json);
 Map<String, dynamic> toJson() => _$AttendanceToJson(this);
+
+}
+@JsonSerializable()
+class AttendanceWithoutEventDate{
+  int id;
+  int student;
+  int logType;
+  bool isPresent;
+
+  AttendanceWithoutEventDate({this.id,this.student,this.logType, this.isPresent});
+factory AttendanceWithoutEventDate.fromJson(Map<String, dynamic> json) => _$AttendanceWithoutEventDateFromJson(json);
+Map<String, dynamic> toJson() => _$AttendanceWithoutEventDateToJson(this);
 
 }
 @JsonSerializable()
@@ -119,8 +136,9 @@ class AttendanceWithObjEvent{
   EventDate eventDate;
   Student student;
   int logType;
+  bool isPresent;
 
-  AttendanceWithObjEvent({this.id,this.eventDate,this.student,this.logType});
+  AttendanceWithObjEvent({this.id,this.eventDate,this.student,this.logType,this.isPresent});
 factory AttendanceWithObjEvent.fromJson(Map<String, dynamic> json) => _$AttendanceWithObjEventFromJson(json);
 Map<String, dynamic> toJson() => _$AttendanceWithObjEventToJson(this);
 
@@ -169,12 +187,27 @@ factory EventDateWithoutObject.fromJson(Map<String, dynamic> json) => _$EventDat
 Map<String, dynamic> toJson() => _$EventDateWithoutObjectToJson(this);
 
 }
+@JsonSerializable()
+class EventDateWithAttendances{
+  int id;
+  int event;
+  int semester;
+  int sy;
+  String eventdate;
+  bool isPresent;
+  int logType;
+  List<AttendanceWithoutEventDate> attendances;
+
+  EventDateWithAttendances({this.id,this.event,this.sy,this.eventdate,this.semester,this.isPresent,this.logType,this.attendances});
+factory EventDateWithAttendances.fromJson(Map<String, dynamic> json) => _$EventDateWithAttendancesFromJson(json);
+Map<String, dynamic> toJson() => _$EventDateWithAttendancesToJson(this);
+
+}
 
 @JsonSerializable()
 class SMSLog{
   String log;
   String recipient;
-
   SMSLog({this.log, this.recipient});
   factory SMSLog.fromJson(Map<String, dynamic> json) => _$SMSLogFromJson(json);
 Map<String, dynamic> toJson() => _$SMSLogToJson(this);
@@ -187,7 +220,6 @@ Map<String, dynamic> toJson() => _$SMSLogToJson(this);
 class SY{
   int id;
   String AY;
-
   SY({this.id,this.AY});
 factory SY.fromJson(Map<String, dynamic> json) => _$SYFromJson(json);
 Map<String, dynamic> toJson() => _$SYToJson(this);
