@@ -42,7 +42,7 @@ class _AddEventState extends State<AddEvent> {
   @override
   void initState() {
     super.initState();
-    Provider.of<EventAttendance>(context,listen: false).getStudents();
+    context.read<EventAttendance>().getStudents();
   }
 
   @override
@@ -232,7 +232,6 @@ class _AddEventState extends State<AddEvent> {
                     Expanded(
                       child: Consumer<EventAttendance>(
                         builder: (context, provider, _) {
-                      
                           return RaisedButton(
                             color: Colors.lightBlue,
                             child: Text(
@@ -257,14 +256,20 @@ class _AddEventState extends State<AddEvent> {
                                   _logType != null) {
                                 EventDateWithAttendances eventdate =
                                     EventDateWithAttendances(
-                                        event: _event,
-                                        semester: _semester,
-                                        sy: _sy,
-                                        eventdate: DateFormat('yyyy-MM-dd')
-                                            .format(_eventdate),
-                                        logType: _logType,
-                                        attendances: provider.students.map((student)=> AttendanceWithoutEventDate(student: student.id, logType: _logType,isPresent: false)).toList(),
-                                        );
+                                  event: _event,
+                                  semester: _semester,
+                                  sy: _sy,
+                                  eventdate: DateFormat('yyyy-MM-dd')
+                                      .format(_eventdate),
+                                  logType: _logType,
+                                  attendances: provider.students
+                                      .map((student) =>
+                                          AttendanceWithoutEventDate(
+                                              student: student.id,
+                                              logType: _logType,
+                                              isPresent: false))
+                                      .toList(),
+                                );
 
                                 // Student student = Student(
                                 //     fullname: _fullname,

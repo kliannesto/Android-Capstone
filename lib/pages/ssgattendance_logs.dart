@@ -13,15 +13,15 @@ class SSGAttendanceLogs extends StatefulWidget {
 }
 
 class _SSGAttendanceLogsState extends State<SSGAttendanceLogs> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration.zero,(){
-   Provider.of<EventAttendance>(context).getSSGAttendanceLogs();
- });
+    Future.delayed(Duration.zero, () {
+      context.read<EventAttendance>().getSSGAttendanceLogs();
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,14 +84,12 @@ class _SSGAttendanceLogsState extends State<SSGAttendanceLogs> {
               ],
             ),
           ),
-          Text('${DateFormat("MM-dd-yyyy").format(ssgattendanceLog.eventDate.eventdate)} \n ${ssgattendanceLog.logType == 0 ?'login' : 'logout'}',
+          Text(
+            '${DateFormat("MM-dd-yyyy").format(ssgattendanceLog.eventDate.eventdate)} \n ${ssgattendanceLog.logType == 0 ? 'login' : 'logout'}',
             style: TextStyle(color: Colors.white),
             textAlign: TextAlign.end,
           ),
-          SizedBox(
-            height:8.0
-          ),
-          
+          SizedBox(height: 8.0),
         ],
       ),
       decoration: BoxDecoration(

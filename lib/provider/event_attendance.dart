@@ -9,19 +9,26 @@ class EventAttendance with ChangeNotifier {
   List<AttendanceWithObjEvent> atts = [];
   List<Student> students = [];
 
+  User user;
 
   double amount = 0;
   final _dio = Dio();
   RestClient client;
+  bool isAuthenticating = false;
   EventAttendance() {
     _dio.options.headers["Content-Type"] = "application/json";
     client = RestClient(_dio);
   }
-  
-  void getStudents() async{
-   _dio.options.headers["Content-Type"] = "application/json";
+
+  void getStudents() async {
+    _dio.options.headers["Content-Type"] = "application/json";
     client = RestClient(_dio);
     students = await client.getStudents();
+    notifyListeners();
+  }
+
+  void authenticate(bool isAuth) {
+    isAuthenticating = isAuth;
     notifyListeners();
   }
 
@@ -32,18 +39,23 @@ class EventAttendance with ChangeNotifier {
     notifyListeners();
   }
 
+  void addUser(User userArg) {
+    user = userArg;
+    notifyListeners();
+  }
+
   void calculate() async {
     amount = 0;
     for (AttendanceWithObjEvent e in atts) {
       if (!e.isPresent) {
         print("bhjjh");
-        if(e.student.religion!='Catholic' && e.eventDate.event.name=='Mass'){
+        if (e.student.religion != 'Catholic' &&
+            e.eventDate.event.name == 'Mass') {
           print("n sud");
-        amount=amount+0;
-        }else {
+          amount = amount + 0;
+        } else {
           amount = amount + e.eventDate.event.fines;
         }
-        
       }
     }
     notifyListeners();
@@ -75,5 +87,4 @@ class EventAttendance with ChangeNotifier {
     atts = await client.getEventDatesByStudSemAndAY(sem, ay, stId);
     notifyListeners();
   }
-  
 }

@@ -47,13 +47,15 @@ class _SmsScannerBodyState extends State<SmsScannerBody> {
             final _dio = Dio();
             RestClient client = RestClient(_dio);
             String qr = await scanQR();
-            Student st = await client.getStudentById(int.parse(qr));
+            Student st = await client.getStudentById(qr);
             print(st);
             String msg = "";
             if (widget.message == "Log-in") {
-              msg = "${st.fullname} is entering in BCC campus on ${DateFormat("MM-dd-yyyy").format(DateTime.now())} ${ DateFormat().add_jm().format(DateTime.now())}";
+              msg =
+                  "${st.fullname} is entering in BCC campus on ${DateFormat("MM-dd-yyyy").format(DateTime.now())} ${DateFormat().add_jm().format(DateTime.now())}";
             } else {
-              msg = "${st.fullname} is leaving the BCC campus on ${DateFormat("MM-dd-yyyy").format(DateTime.now())} ${DateFormat().add_jm().format(DateTime.now())}";
+              msg =
+                  "${st.fullname} is leaving the BCC campus on ${DateFormat("MM-dd-yyyy").format(DateTime.now())} ${DateFormat().add_jm().format(DateTime.now())}";
             }
             SMS.sendMessage(msg, st.guardiancontact, context);
           },

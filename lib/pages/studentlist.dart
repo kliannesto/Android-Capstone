@@ -3,12 +3,13 @@ import 'package:myapplication/pages/add_event.dart';
 import 'package:myapplication/pages/smsscanner.dart';
 import 'package:myapplication/widgets/students.dart';
 
+import 'generate_report.dart';
+
 class StudenList extends StatelessWidget {
   final String menu;
   final Container icon;
   final String tag;
-  const StudenList({Key key, this.menu, this.icon, this.tag})
-      : super(key: key);
+  const StudenList({Key key, this.menu, this.icon, this.tag}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +63,7 @@ class StudenList extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context) {
-                          return AddEvent(
-                          );
+                          return AddEvent();
                         }));
                       },
                       splashColor: Colors.yellowAccent,
@@ -107,8 +107,7 @@ class StudenList extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: (context) {
-                          return StudentList(
-                          );
+                          return StudentList();
                         }));
                       },
                       splashColor: Colors.yellowAccent,
@@ -127,6 +126,50 @@ class StudenList extends StatelessWidget {
                             ),
                             Text(
                               "Students List",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.w300),
+                            )
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                            color: Colors.lightBlue,
+                            borderRadius: BorderRadius.circular(25.0)),
+                        padding: EdgeInsets.all(8.0),
+                        height: 150.0,
+                        width: MediaQuery.of(context).size.width / 2 - 4,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 8.0,
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(25.0),
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: (context) {
+                          return GenerateReport();
+                        }));
+                      },
+                      splashColor: Colors.yellowAccent,
+                      child: Container(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              Icons.event,
+                              color: Colors.white,
+                              size: 50.0,
+                            ),
+                            SizedBox(
+                              height: 8.0,
+                            ),
+                            Text(
+                              "Report",
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15.0,

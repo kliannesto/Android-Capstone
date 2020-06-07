@@ -11,17 +11,16 @@ class LogsPage extends StatefulWidget {
 }
 
 class _LogsPageState extends State<LogsPage> {
-
   @override
   void initState() {
     super.initState();
- Future.delayed(Duration.zero,(){
-   Provider.of<EventAttendance>(context).getLogs();
- });
+    Future.delayed(Duration.zero, () {
+      context.read<EventAttendance>().getLogs();
+    });
   }
+
   @override
   Widget build(BuildContext context) {
-        
     return Scaffold(
       appBar: AppBar(
         title: Text("SMS Logs"),
@@ -29,11 +28,10 @@ class _LogsPageState extends State<LogsPage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Consumer<EventAttendance>(
-          builder: (context,event,_){
+          builder: (context, event, _) {
             return ListView.builder(
               itemCount: event.smslogs.length,
-              itemBuilder: (context,index){
-                
+              itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: _logItem(event.smslogs[index]),
@@ -43,7 +41,6 @@ class _LogsPageState extends State<LogsPage> {
           },
         ),
       ),
-    
     );
   }
 
@@ -52,23 +49,32 @@ class _LogsPageState extends State<LogsPage> {
       padding: EdgeInsets.all(8.0),
       child: Column(
         children: <Widget>[
-          Text(smsLog.log, style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
-          SizedBox(height: 8,),
-          Text(smsLog.recipient, style: TextStyle(color: Colors.white),)
+          Text(
+            smsLog.log,
+            style: TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Text(
+            smsLog.recipient,
+            style: TextStyle(color: Colors.white),
+          )
         ],
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
           gradient: LinearGradient(
-                      colors: <Color>[
-                        Colors.blue,
-                        Colors.greenAccent,
-                      ],
-                      begin: FractionalOffset(0, 0),
-                      end: FractionalOffset(1, 0),
-                      stops: [0, 1],
-                      tileMode: TileMode.clamp)
-      ),
+              colors: <Color>[
+                Colors.blue,
+                Colors.greenAccent,
+              ],
+              begin: FractionalOffset(0, 0),
+              end: FractionalOffset(1, 0),
+              stops: [0, 1],
+              tileMode: TileMode.clamp)),
     );
   }
 }

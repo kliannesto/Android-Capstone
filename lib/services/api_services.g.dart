@@ -46,6 +46,33 @@ Map<String, dynamic> _$CourseToJson(Course instance) => <String, dynamic>{
       'description': instance.description,
     };
 
+User _$UserFromJson(Map<String, dynamic> json) {
+  return User(
+    username: json['username'] as String,
+    is_admin: json['is_admin'] as bool,
+    is_auth: json['is_auth'] as bool,
+  );
+}
+
+Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
+      'username': instance.username,
+      'is_admin': instance.is_admin,
+      'is_auth': instance.is_auth,
+    };
+
+Credential _$CredentialFromJson(Map<String, dynamic> json) {
+  return Credential(
+    username: json['username'] as String,
+    password: json['password'] as String,
+  );
+}
+
+Map<String, dynamic> _$CredentialToJson(Credential instance) =>
+    <String, dynamic>{
+      'username': instance.username,
+      'password': instance.password,
+    };
+
 Attendance _$AttendanceFromJson(Map<String, dynamic> json) {
   return Attendance(
     id: json['id'] as int,
@@ -234,7 +261,7 @@ Map<String, dynamic> _$SYToJson(SY instance) => <String, dynamic>{
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    this.baseUrl ??= 'http://192.168.254.124:8000/api';
+    this.baseUrl ??= 'http://192.168.254.105:8000/api';
   }
 
   final Dio _dio;
@@ -257,7 +284,7 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     final value = Student.fromJson(_result.data);
-    return Future.value(value);
+    return value;
   }
 
   @override
@@ -276,7 +303,7 @@ class _RestClient implements RestClient {
     var value = _result.data
         .map((dynamic i) => Student.fromJson(i as Map<String, dynamic>))
         .toList();
-    return Future.value(value);
+    return value;
   }
 
   @override
@@ -285,7 +312,7 @@ class _RestClient implements RestClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(student.toJson() ?? <String, dynamic>{});
+    _data.addAll(student?.toJson() ?? <String, dynamic>{});
     final Response<Map<String, dynamic>> _result = await _dio.request(
         '/students/',
         queryParameters: queryParameters,
@@ -296,7 +323,7 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     final value = Student.fromJson(_result.data);
-    return Future.value(value);
+    return value;
   }
 
   @override
@@ -306,7 +333,7 @@ class _RestClient implements RestClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(student.toJson() ?? <String, dynamic>{});
+    _data.addAll(student?.toJson() ?? <String, dynamic>{});
     final Response<Map<String, dynamic>> _result = await _dio.request(
         '/students/$id',
         queryParameters: queryParameters,
@@ -317,7 +344,7 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     final value = Student.fromJson(_result.data);
-    return Future.value(value);
+    return value;
   }
 
   @override
@@ -336,7 +363,7 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     final value = Student.fromJson(_result.data);
-    return Future.value(value);
+    return value;
   }
 
   @override
@@ -355,7 +382,7 @@ class _RestClient implements RestClient {
     var value = _result.data
         .map((dynamic i) => Course.fromJson(i as Map<String, dynamic>))
         .toList();
-    return Future.value(value);
+    return value;
   }
 
   @override
@@ -364,7 +391,7 @@ class _RestClient implements RestClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(attendance.toJson() ?? <String, dynamic>{});
+    _data.addAll(attendance?.toJson() ?? <String, dynamic>{});
     final Response<Map<String, dynamic>> _result = await _dio.request(
         '/attendance/',
         queryParameters: queryParameters,
@@ -375,7 +402,7 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     final value = Attendance.fromJson(_result.data);
-    return Future.value(value);
+    return value;
   }
 
   @override
@@ -384,7 +411,7 @@ class _RestClient implements RestClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(smslog.toJson() ?? <String, dynamic>{});
+    _data.addAll(smslog?.toJson() ?? <String, dynamic>{});
     final Response<Map<String, dynamic>> _result = await _dio.request(
         '/smslogs/',
         queryParameters: queryParameters,
@@ -395,7 +422,7 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     final value = SMSLog.fromJson(_result.data);
-    return Future.value(value);
+    return value;
   }
 
   @override
@@ -414,7 +441,7 @@ class _RestClient implements RestClient {
     var value = _result.data
         .map((dynamic i) => SMSLog.fromJson(i as Map<String, dynamic>))
         .toList();
-    return Future.value(value);
+    return value;
   }
 
   @override
@@ -435,7 +462,7 @@ class _RestClient implements RestClient {
         .map((dynamic i) =>
             AttendanceWithObjEvent.fromJson(i as Map<String, dynamic>))
         .toList();
-    return Future.value(value);
+    return value;
   }
 
   @override
@@ -452,7 +479,7 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    return Future.value(null);
+    return null;
   }
 
   @override
@@ -471,7 +498,7 @@ class _RestClient implements RestClient {
     var value = _result.data
         .map((dynamic i) => EventDate.fromJson(i as Map<String, dynamic>))
         .toList();
-    return Future.value(value);
+    return value;
   }
 
   @override
@@ -490,7 +517,7 @@ class _RestClient implements RestClient {
     var value = _result.data
         .map((dynamic i) => EventDate.fromJson(i as Map<String, dynamic>))
         .toList();
-    return Future.value(value);
+    return value;
   }
 
   @override
@@ -509,7 +536,7 @@ class _RestClient implements RestClient {
     var value = _result.data
         .map((dynamic i) => SY.fromJson(i as Map<String, dynamic>))
         .toList();
-    return Future.value(value);
+    return value;
   }
 
   @override
@@ -528,7 +555,7 @@ class _RestClient implements RestClient {
     var value = _result.data
         .map((dynamic i) => Event.fromJson(i as Map<String, dynamic>))
         .toList();
-    return Future.value(value);
+    return value;
   }
 
   @override
@@ -537,7 +564,7 @@ class _RestClient implements RestClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    _data.addAll(eventdate.toJson() ?? <String, dynamic>{});
+    _data.addAll(eventdate?.toJson() ?? <String, dynamic>{});
     final Response<Map<String, dynamic>> _result = await _dio.request(
         '/events/',
         queryParameters: queryParameters,
@@ -548,7 +575,26 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     final value = EventDateWithAttendances.fromJson(_result.data);
-    return Future.value(value);
+    return value;
+  }
+
+  @override
+  login(credential) async {
+    ArgumentError.checkNotNull(credential, 'credential');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(credential?.toJson() ?? <String, dynamic>{});
+    final Response<Map<String, dynamic>> _result = await _dio.request('/login',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'POST',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = User.fromJson(_result.data);
+    return value;
   }
 
   @override
@@ -570,19 +616,19 @@ class _RestClient implements RestClient {
     var value = _result.data
         .map((dynamic i) => EventDate.fromJson(i as Map<String, dynamic>))
         .toList();
-    return Future.value(value);
+    return value;
   }
 
   @override
-  getEventDatesByStudSemAndAY(semId, AyId, stId) async {
+  getEventDatesByStudSemAndAY(semId, ayId, stId) async {
     ArgumentError.checkNotNull(semId, 'semId');
-    ArgumentError.checkNotNull(AyId, 'AyId');
+    ArgumentError.checkNotNull(ayId, 'ayId');
     ArgumentError.checkNotNull(stId, 'stId');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final Response<List<dynamic>> _result = await _dio.request(
-        '/dateattendance/sem/$semId/ay/$AyId/stud/$stId',
+        '/dateattendance/sem/$semId/ay/$ayId/stud/$stId',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -594,6 +640,30 @@ class _RestClient implements RestClient {
         .map((dynamic i) =>
             AttendanceWithObjEvent.fromJson(i as Map<String, dynamic>))
         .toList();
-    return Future.value(value);
+    return value;
+  }
+
+  @override
+  getEventDatesByCourseSemAndAY(semId, ayId, courseId) async {
+    ArgumentError.checkNotNull(semId, 'semId');
+    ArgumentError.checkNotNull(ayId, 'ayId');
+    ArgumentError.checkNotNull(courseId, 'courseId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<List<dynamic>> _result = await _dio.request(
+        '/dateattendance/sem/$semId/ay/$ayId/course/$courseId',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) =>
+            AttendanceWithObjEvent.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
   }
 }

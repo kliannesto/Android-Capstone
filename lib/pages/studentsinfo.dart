@@ -24,7 +24,7 @@ class StudentPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.monetization_on),
         onPressed: () async {
-          Provider.of<EventAttendance>(context).calculate();
+          context.read<EventAttendance>().calculate();
           showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -35,8 +35,15 @@ class StudentPage extends StatelessWidget {
                     return Container(
                       child: Row(
                         children: <Widget>[
-                          Text("Total Amount:",),
-                          Expanded(child: Text(event.amount.toString(),style: TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.end,))
+                          Text(
+                            "Total Amount:",
+                          ),
+                          Expanded(
+                              child: Text(
+                            event.amount.toString(),
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.end,
+                          ))
                         ],
                       ),
                     );
@@ -168,8 +175,11 @@ class _StudentDetailState extends State<StudentDetail> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25.0)),
                           onPressed: () async {
-                            Provider.of<EventAttendance>(context)
-                                .geteventDates(_ay, _sem, widget.student.student_id,widget.student.religion);
+                            context.read<EventAttendance>().geteventDates(
+                                _ay,
+                                _sem,
+                                widget.student.student_id,
+                                widget.student.religion);
                           },
                         ),
                       ),
@@ -204,7 +214,10 @@ class _StudentDetailState extends State<StudentDetail> {
                               radius: 24.0,
                               backgroundColor:
                                   colors[Random().nextInt(colors.length)],
-                              child: Text(event.atts[index].eventDate.event.name != null? event.atts[index].eventDate.event.name.substring(0, 1)
+                              child: Text(
+                                  event.atts[index].eventDate.event.name != null
+                                      ? event.atts[index].eventDate.event.name
+                                          .substring(0, 1)
                                       : '',
                                   style: TextStyle(color: Colors.white)),
                             ),
@@ -215,12 +228,17 @@ class _StudentDetailState extends State<StudentDetail> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(event.atts[index].eventDate.event.name != null ? event.atts[index].eventDate.event.name:'',
+                                Text(
+                                    event.atts[index].eventDate.event.name !=
+                                            null
+                                        ? event.atts[index].eventDate.event.name
+                                        : '',
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500)),
-                                Text(event.atts[index].eventDate.event.fines.toString())
+                                Text(event.atts[index].eventDate.event.fines
+                                    .toString())
                               ],
                             ),
                             Expanded(
@@ -229,12 +247,16 @@ class _StudentDetailState extends State<StudentDetail> {
                                 children: <Widget>[
                                   event.atts[index].eventDate.eventdate != null
                                       ? Text(DateFormat("MM-dd-yyyy").format(
-                                          event.atts[index].eventDate.eventdate))
+                                          event
+                                              .atts[index].eventDate.eventdate))
                                       : Text(''),
                                   event.atts[index].isPresent != null &&
-                                           event.atts[index].isPresent ||
-                                 ( event.atts[index].student.religion!='Catholic' && event.atts[index].eventDate.event.name=='Mass')
-
+                                              event.atts[index].isPresent ||
+                                          (event.atts[index].student.religion !=
+                                                  'Catholic' &&
+                                              event.atts[index].eventDate.event
+                                                      .name ==
+                                                  'Mass')
                                       ? Text('Present')
                                       : Text('absent')
                                 ],

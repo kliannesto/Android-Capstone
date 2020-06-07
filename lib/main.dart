@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:myapplication/pages/login_screen.dart';
 import 'package:myapplication/provider/event_attendance.dart';
 import 'package:provider/provider.dart';
 
+import 'services/api_services.dart';
 import 'widgets/menu.dart';
 
 void main() => runApp(MyApp());
@@ -11,23 +13,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-       return MultiProvider(
+    return MultiProvider(
       providers: [
-        ChangeNotifierProvider(builder: (_) => EventAttendance()),
-      ],
-          child: MaterialApp(
-        title: "MyApp",
-        theme: ThemeData(
-          primarySwatch: Colors.blue
+        ChangeNotifierProvider(
+          create: (BuildContext context) => EventAttendance(),
         ),
-        home: Homepage(),
+      ],
+      child: MaterialApp(
+        title: "MyApp",
+        theme: ThemeData(primarySwatch: Colors.blue),
+        home: LoginScreen(),
       ),
     );
   }
 }
 
 class Homepage extends StatefulWidget {
-  Homepage({Key key}) : super(key: key);
+  Homepage({
+    Key key,
+  }) : super(key: key);
 
   _HomepageState createState() => _HomepageState();
 }
@@ -36,35 +40,29 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    body: NestedScrollView(
-      body: Menu(), 
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-
-        return <Widget>[
-
-          SliverAppBar(
-            expandedHeight: 200.0 ,
-            pinned: true,
-            floating: false,
-            flexibleSpace: FlexibleSpaceBar(
-
-              title: Text("Home"),
-              centerTitle: true,
-              background: Image.asset('assets/images/header.jpeg',fit: BoxFit.cover,),
-              
-            ),
-          )
-        ];
-      },
-      
-    ),
+      body: NestedScrollView(
+        body: Menu(),
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              expandedHeight: 200.0,
+              pinned: true,
+              floating: false,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text("Home"),
+                centerTitle: true,
+                background: Image.asset(
+                  'assets/images/header.jpeg',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            )
+          ];
+        },
+      ),
     );
-    
   }
 }
-
-
-
 
 // class MyApp extends StatelessWidget {
 //   // This widget is the root of your application.

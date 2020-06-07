@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:myapplication/services/api_services.dart';
 import 'package:myapplication/utils/qr_codescan.dart';
 
-
 class AttendanceScanner extends StatelessWidget {
   final String message;
   const AttendanceScanner({Key key, this.message}) : super(key: key);
@@ -64,8 +63,8 @@ class _AttendanceScannerBodyState extends State<AttendanceScannerBody> {
                       )),
                   items: snapshot.data
                       .map((event) => DropdownMenuItem<int>(
-                            child: Text('${DateFormat('MM-dd-yyyy').format(event.eventdate)}-${event.event.name}-${event.logType == 0 ? 'login':'logout'}') 
-                                ,
+                            child: Text(
+                                '${DateFormat('MM-dd-yyyy').format(event.eventdate)}-${event.event.name}-${event.logType == 0 ? 'login' : 'logout'}'),
                             value: event.id,
                           ))
                       .toList(),
@@ -86,56 +85,54 @@ class _AttendanceScannerBodyState extends State<AttendanceScannerBody> {
             height: 128.0,
           ),
           Center(
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        IconButton(
-          iconSize: 100,
-          icon: Icon(
-            Icons.camera_alt,
-            color: Colors.blue,
-          ),
-           onPressed: () async {
-                          try {
-                            final _dio = Dio();
-                            RestClient client = RestClient(_dio);
-                            if(_event!=null){
-                            String qr = await scanQR();
-                            print(_event);
-                            Student st =
-                                await client.getStudentById(int.parse(qr));
-                            Attendance at = Attendance(
-                              isPresent: true,
-                                eventDate: _event,
-                                student: st.id,
-                                logType: int.parse(message));
-                            await client.saveAttendance(at);
-                            final snackBar = SnackBar(
-                                content: Text('Attendance successfully log!'));
-                            Scaffold.of(context).showSnackBar(snackBar);
-                          }else{
-                            final snackBar = SnackBar(
-                                content: Text('Please Select an Event!'));
-                            Scaffold.of(context).showSnackBar(snackBar);
-                          }
-                          } catch (e) {
-                            print(e);
-                                 final snackBar = SnackBar(
-                                content: Text('Error occured!'));
-                            Scaffold.of(context).showSnackBar(snackBar);
-                            print(e.toString());
-                          }
-                        },
-
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        Text('Tap the Icon button above to scan an ID',
-            style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w300,
-                fontSize: 15.0)),
-      ]),
-    )
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              IconButton(
+                iconSize: 100,
+                icon: Icon(
+                  Icons.camera_alt,
+                  color: Colors.blue,
+                ),
+                onPressed: () async {
+                  try {
+                    final _dio = Dio();
+                    RestClient client = RestClient(_dio);
+                    if (_event != null) {
+                      String qr = await scanQR();
+                      print(_event);
+                      Student st = await client.getStudentById(qr);
+                      Attendance at = Attendance(
+                          isPresent: true,
+                          eventDate: _event,
+                          student: st.id,
+                          logType: int.parse(message));
+                      await client.saveAttendance(at);
+                      final snackBar = SnackBar(
+                          content: Text('Attendance successfully log!'));
+                      Scaffold.of(context).showSnackBar(snackBar);
+                    } else {
+                      final snackBar =
+                          SnackBar(content: Text('Please Select an Event!'));
+                      Scaffold.of(context).showSnackBar(snackBar);
+                    }
+                  } catch (e) {
+                    print(e);
+                    final snackBar = SnackBar(content: Text('Error occured!'));
+                    Scaffold.of(context).showSnackBar(snackBar);
+                    print(e.toString());
+                  }
+                },
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text('Tap the Icon button above to scan an ID',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w300,
+                      fontSize: 15.0)),
+            ]),
+          )
         ],
       ),
     );
