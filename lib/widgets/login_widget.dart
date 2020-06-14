@@ -124,7 +124,7 @@ class _LoginWidgetState extends State<LoginWidget> {
           borderRadius: BorderRadius.circular(10),
         ),
         onPressed: () async {
-          widget.onLoginSuccess(User(is_admin: true, is_auth: true));
+          widget.onLoginSuccess(User(is_admin: false, is_auth: false));
         },
         padding: EdgeInsets.all(12),
         child: Text(
