@@ -7,6 +7,7 @@ class EventAttendance with ChangeNotifier {
   List<SMSLog> smslogs = [];
   List<EventDate> events = [];
   List<AttendanceWithObjEvent> atts = [];
+  List<AttendanceWithObjEvent> attendanceAll = [];
   List<Student> students = [];
 
   User user;
@@ -85,6 +86,12 @@ class EventAttendance with ChangeNotifier {
 
   void geteventDates(int ay, int sem, String stId, String religion) async {
     atts = await client.getEventDatesByStudSemAndAY(sem, ay, stId);
+    notifyListeners();
+  }
+
+  void getAllEventsBySemAy(int ay, int sem) async {
+    attendanceAll = await client.getEventBySemAndAY(sem, ay);
+
     notifyListeners();
   }
 }

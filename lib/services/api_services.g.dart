@@ -32,6 +32,35 @@ Map<String, dynamic> _$StudentToJson(Student instance) => <String, dynamic>{
       'religion': instance.religion,
     };
 
+StudentRead _$StudentReadFromJson(Map<String, dynamic> json) {
+  return StudentRead(
+    id: json['id'] as int,
+    student_id: json['student_id'] as String,
+    fullname: json['fullname'] as String,
+    address: json['address'] as String,
+    mobileno: json['mobileno'] as String,
+    guardiancontact: json['guardiancontact'] as String,
+    course: json['course'] == null
+        ? null
+        : Course.fromJson(json['course'] as Map<String, dynamic>),
+    isActive: json['isActive'] as bool,
+    religion: json['religion'] as String,
+  );
+}
+
+Map<String, dynamic> _$StudentReadToJson(StudentRead instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'student_id': instance.student_id,
+      'fullname': instance.fullname,
+      'address': instance.address,
+      'mobileno': instance.mobileno,
+      'guardiancontact': instance.guardiancontact,
+      'course': instance.course,
+      'isActive': instance.isActive,
+      'religion': instance.religion,
+    };
+
 Course _$CourseFromJson(Map<String, dynamic> json) {
   return Course(
     id: json['id'] as int,
@@ -120,7 +149,7 @@ AttendanceWithObjEvent _$AttendanceWithObjEventFromJson(
         : EventDate.fromJson(json['eventDate'] as Map<String, dynamic>),
     student: json['student'] == null
         ? null
-        : Student.fromJson(json['student'] as Map<String, dynamic>),
+        : StudentRead.fromJson(json['student'] as Map<String, dynamic>),
     logType: json['logType'] as int,
     isPresent: json['isPresent'] as bool,
   );
@@ -629,6 +658,29 @@ class _RestClient implements RestClient {
     final _data = <String, dynamic>{};
     final Response<List<dynamic>> _result = await _dio.request(
         '/dateattendance/sem/$semId/ay/$ayId/stud/$stId',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    var value = _result.data
+        .map((dynamic i) =>
+            AttendanceWithObjEvent.fromJson(i as Map<String, dynamic>))
+        .toList();
+    return value;
+  }
+
+  @override
+  getEventBySemAndAY(semId, ayId) async {
+    ArgumentError.checkNotNull(semId, 'semId');
+    ArgumentError.checkNotNull(ayId, 'ayId');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final Response<List<dynamic>> _result = await _dio.request(
+        '/dateattendance/sem/$semId/ay/$ayId',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',

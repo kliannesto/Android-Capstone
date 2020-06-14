@@ -70,6 +70,12 @@ abstract class RestClient {
       @Path('ay_id') int ayId,
       @Path('st_id') String stId);
 
+  @GET('/dateattendance/sem/{sem_id}/ay/{ay_id}')
+  Future<List<AttendanceWithObjEvent>> getEventBySemAndAY(
+    @Path('sem_id') int semId,
+    @Path('ay_id') int ayId,
+  );
+
   @GET('/dateattendance/sem/{sem_id}/ay/{ay_id}/course/{course_id}')
   Future<List<AttendanceWithObjEvent>> getEventDatesByCourseSemAndAY(
       @Path('sem_id') int semId,
@@ -105,6 +111,33 @@ class Student {
   factory Student.fromJson(Map<String, dynamic> json) =>
       _$StudentFromJson(json);
   Map<String, dynamic> toJson() => _$StudentToJson(this);
+}
+
+@JsonSerializable()
+class StudentRead {
+  int id;
+  String student_id;
+  String fullname;
+  String address;
+  String mobileno;
+  String guardiancontact;
+  Course course;
+  bool isActive;
+  String religion;
+
+  StudentRead(
+      {this.id,
+      this.student_id,
+      this.fullname,
+      this.address,
+      this.mobileno,
+      this.guardiancontact,
+      this.course,
+      this.isActive,
+      this.religion});
+  factory StudentRead.fromJson(Map<String, dynamic> json) =>
+      _$StudentReadFromJson(json);
+  Map<String, dynamic> toJson() => _$StudentReadToJson(this);
 }
 
 @JsonSerializable()
@@ -173,7 +206,7 @@ class AttendanceWithoutEventDate {
 class AttendanceWithObjEvent {
   int id;
   EventDate eventDate;
-  Student student;
+  StudentRead student;
   int logType;
   bool isPresent;
 

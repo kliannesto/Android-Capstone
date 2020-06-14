@@ -6,14 +6,16 @@ import 'package:intl/intl.dart';
 import 'package:myapplication/provider/event_attendance.dart';
 import 'package:myapplication/services/api_services.dart';
 import 'package:dio/dio.dart';
+import 'package:myapplication/utils/generate_document.dart';
+import 'package:myapplication/utils/report.dart';
+import 'package:printing/printing.dart';
 import 'package:provider/provider.dart';
-// import 'package:pdf/pdf.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// import 'package:pdf/widgets.dart' as pw;
-// import 'package:printing/printing.dart';
-import 'package:myapplication/utils/report.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pdf;
+import 'package:printing/printing.dart';
 
 class GenerateReport extends StatelessWidget {
   const GenerateReport({
@@ -157,7 +159,25 @@ class _ReportBodyState extends State<ReportBody> {
                           ),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25.0)),
-                          onPressed: () async {},
+                          onPressed: () async {
+                            context.read<EventAttendance>().getAllEventsBySemAy(
+                                  _ay,
+                                  _sem,
+                                );
+                            Printing.layoutPdf(
+                              onLayout: (
+                                PdfPageFormat pageFormat,
+                              ) async {
+                                return await generateFinesReport(
+                                    pageFormat,
+                                    context
+                                        .read<EventAttendance>()
+                                        .attendanceAll);
+                              },
+                            );
+
+                            // printDocument(atts);
+                          },
                         ),
                       ),
                     ),
@@ -169,30 +189,10 @@ class _ReportBodyState extends State<ReportBody> {
               ],
             ),
           ),
-          // PdfPreview(
-          //   maxPageWidth: 700,
-          //   build: generateInvoice,
-          //   // actions: actions,
-          // ),
         ],
       ),
     );
   }
-
-  // Future<void> _saveAsFile(
-  //   BuildContext context,
-  //   LayoutCallback build,
-  //   PdfPageFormat pageFormat,
-  // ) async {
-  //   // final Uint8List bytes = await build(pageFormat);
-
-  //   // final Directory appDocDir = await getApplicationDocumentsDirectory();
-  //   // final String appDocPath = appDocDir.path;
-  //   // final File file = File(appDocPath + '/' + 'document.pdf');
-  //   // print('Save as file ${file.path} ...');
-  //   // await file.writeAsBytes(bytes);
-  //   // OpenFile.open(file.path);
-  // }
 }
 
 class Semester {
