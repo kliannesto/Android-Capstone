@@ -5,17 +5,16 @@ import 'package:myapplication/provider/event_attendance.dart';
 import 'package:myapplication/services/api_services.dart';
 import 'package:provider/provider.dart';
 
-class SSGAttendanceLogs extends StatefulWidget {
-  SSGAttendanceLogs({Key key}) : super(key: key);
+class SSGAttendanceLogPage extends StatefulWidget {
+  SSGAttendanceLogPage({Key key}) : super(key: key);
 
   @override
   _SSGAttendanceLogsState createState() => _SSGAttendanceLogsState();
 }
 
-class _SSGAttendanceLogsState extends State<SSGAttendanceLogs> {
+class _SSGAttendanceLogsState extends State<SSGAttendanceLogPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(Duration.zero, () {
       context.read<EventAttendance>().getSSGAttendanceLogs();

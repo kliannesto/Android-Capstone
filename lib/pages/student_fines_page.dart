@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myapplication/provider/event_attendance.dart';
@@ -8,9 +6,9 @@ import 'package:myapplication/services/api_services.dart';
 import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 
-class StudentPage extends StatelessWidget {
+class StudentFinePage extends StatelessWidget {
   final Student student;
-  const StudentPage({Key key, @required this.student}) : super(key: key);
+  const StudentFinePage({Key key, @required this.student}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +16,7 @@ class StudentPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Students Info"),
       ),
-      body: StudentDetail(
+      body: _StudentFineDetail(
         student: student,
       ),
       floatingActionButton: FloatingActionButton(
@@ -56,19 +54,18 @@ class StudentPage extends StatelessWidget {
   }
 }
 
-class StudentDetail extends StatefulWidget {
+class _StudentFineDetail extends StatefulWidget {
   final Student student;
-  StudentDetail({Key key, this.student}) : super(key: key);
+  _StudentFineDetail({Key key, this.student}) : super(key: key);
 
   @override
   _StudentDetailState createState() => _StudentDetailState();
 }
 
-class _StudentDetailState extends State<StudentDetail> {
+class _StudentDetailState extends State<_StudentFineDetail> {
   int _ay;
   int _sem;
 
-  List<EventDate> _events = [];
   List<AttendanceWithObjEvent> attendances = [];
   List<Color> colors = [
     Colors.lightBlue,
@@ -78,9 +75,6 @@ class _StudentDetailState extends State<StudentDetail> {
     Colors.orangeAccent
   ];
   _StudentDetailState();
-
-  StreamController<List<EventDate>> _eventstreamcontroller =
-      StreamController<List<EventDate>>();
 
   List<Semester> _sems = [
     Semester(label: "First Sem", val: 0),

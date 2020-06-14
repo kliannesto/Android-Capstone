@@ -1,17 +1,18 @@
-import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:myapplication/provider/event_attendance.dart';
-import 'package:myapplication/services/api_services.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AddStudent extends StatefulWidget {
-  AddStudent({Key key}) : super(key: key);
+import '../provider/event_attendance.dart';
+import '../services/api_services.dart';
+
+class AddStudentPage extends StatefulWidget {
+  AddStudentPage({Key key}) : super(key: key);
 
   @override
   _AddStudentState createState() => _AddStudentState();
 }
 
-class _AddStudentState extends State<AddStudent> {
+class _AddStudentState extends State<AddStudentPage> {
   final _formKey = GlobalKey<FormState>();
   String _studentid;
   String _fullname;

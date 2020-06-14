@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:myapplication/pages/ssgattendance_logs.dart';
-import 'attendancescanner.dart';
+import 'package:myapplication/pages/ssg_attendance_log_page.dart';
+import 'package:myapplication/pages/ssg_attendance_scanner_page.dart';
 
-class AttendanceMenu extends StatelessWidget {
+class SsgAttendancePortalPage extends StatelessWidget {
   final String menu;
   final Container icon;
   final String tag;
-  const AttendanceMenu({Key key, this.menu, this.icon, this.tag})
+  const SsgAttendancePortalPage({Key key, this.menu, this.icon, this.tag})
       : super(key: key);
 
   @override
@@ -61,7 +61,7 @@ class AttendanceMenu extends StatelessWidget {
                           onTap: () {
                             Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) {
-                              return AttendanceScanner(
+                              return SsgAttendanceScannerPage(
                                 message: "0",
                               );
                             }));
@@ -107,7 +107,7 @@ class AttendanceMenu extends StatelessWidget {
                           onTap: () {
                             Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) {
-                              return AttendanceScanner(
+                              return SsgAttendanceScannerPage(
                                 message: "1",
                               );
                             }));
@@ -144,53 +144,50 @@ class AttendanceMenu extends StatelessWidget {
                           ),
                         ),
                       ),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                      Expanded(
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(25.0),
-                      onTap: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context) {
-                          return SSGAttendanceLogs();
-                        }));
-                      },
-                      splashColor: Colors.yellowAccent,
-                      child: Container(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            Icon(
-                              Icons.list,
-                              color: Colors.white,
-                              size: 50.0,
-                            ),
-                            SizedBox(
-                              height: 8.0,
-                            ),
-                            Text(
-                              "Attendances",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15.0,
-                                  fontWeight: FontWeight.w300),
-                            )
-                          ],
-                        ),
-                        decoration: BoxDecoration(
-                            color: Colors.lightBlue,
-                            borderRadius: BorderRadius.circular(25.0)),
-                        padding: EdgeInsets.all(8.0),
-                        height: 150.0,
-                        width: MediaQuery.of(context).size.width / 2 - 4,
-
-                        
+                      SizedBox(
+                        width: 8.0,
                       ),
-                      
-                    ),
-                  ),
+                      Expanded(
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(25.0),
+                          onTap: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return SSGAttendanceLogPage();
+                            }));
+                          },
+                          splashColor: Colors.yellowAccent,
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
+                                  Icons.list,
+                                  color: Colors.white,
+                                  size: 50.0,
+                                ),
+                                SizedBox(
+                                  height: 8.0,
+                                ),
+                                Text(
+                                  "Attendances",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15.0,
+                                      fontWeight: FontWeight.w300),
+                                )
+                              ],
+                            ),
+                            decoration: BoxDecoration(
+                                color: Colors.lightBlue,
+                                borderRadius: BorderRadius.circular(25.0)),
+                            padding: EdgeInsets.all(8.0),
+                            height: 150.0,
+                            width: MediaQuery.of(context).size.width / 2 - 4,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -214,7 +211,7 @@ class _HomeAttendanceState extends State<HomeAttendance> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
-        body: AttendanceMenu(),
+        body: SsgAttendancePortalPage(),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(

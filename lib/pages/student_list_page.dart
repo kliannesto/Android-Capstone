@@ -1,21 +1,21 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:myapplication/pages/add_student.dart';
-import 'package:myapplication/pages/studentsinfo.dart';
+import 'package:myapplication/pages/add_student_page.dart';
+import 'package:myapplication/pages/student_fines_page.dart';
 import 'package:myapplication/provider/event_attendance.dart';
 import 'package:myapplication/services/api_services.dart';
 import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 
-class StudentList extends StatefulWidget {
-  StudentList({Key key}) : super(key: key);
+class StudentListPage extends StatefulWidget {
+  StudentListPage({Key key}) : super(key: key);
 
   @override
   _StudentListState createState() => _StudentListState();
 }
 
-class _StudentListState extends State<StudentList> {
+class _StudentListState extends State<StudentListPage> {
   List<Student> students = [];
   List<Color> colors = [
     Colors.lightBlue,
@@ -30,7 +30,7 @@ class _StudentListState extends State<StudentList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getStudent();
+    context.read<EventAttendance>().getStudents();
   }
 
   getStudent() {
@@ -54,7 +54,7 @@ class _StudentListState extends State<StudentList> {
           child: Icon(Icons.add),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return AddStudent();
+              return AddStudentPage();
             }));
           },
         ),
@@ -72,7 +72,8 @@ class _StudentListState extends State<StudentList> {
                               .clearEventsAndAttendance();
                           Navigator.of(context)
                               .push(MaterialPageRoute(builder: (context) {
-                            return StudentPage(student: event.students[index]);
+                            return StudentFinePage(
+                                student: event.students[index]);
                           }));
                         },
                         child: Container(
@@ -115,7 +116,6 @@ class _StudentListState extends State<StudentList> {
                   ),
                 );
               } else {
-                print("!");
                 return Center(
                   child: CircularProgressIndicator(),
                 );

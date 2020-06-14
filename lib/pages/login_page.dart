@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapplication/pages/home_page.dart';
 
 import 'package:myapplication/widgets/login_widget.dart';
 import 'package:provider/provider.dart';
@@ -9,12 +10,12 @@ import '../services/api_services.dart';
 
 import 'package:dio/dio.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginPage> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 

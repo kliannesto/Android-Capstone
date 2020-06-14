@@ -98,9 +98,11 @@ class EventAttendance with ChangeNotifier {
     notifyListeners();
   }
 
-  void getAllEventsBySemAy(int ay, int sem) async {
+  Future<List<AttendanceWithObjEvent>> getAllEventsBySemAy(
+      int ay, int sem) async {
     attendanceAll = await client.getEventBySemAndAY(sem, ay);
 
     notifyListeners();
+    return attendanceAll;
   }
 }

@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:myapplication/services/api_services.dart';
 import 'package:myapplication/utils/qr_codescan.dart';
 
-class AttendanceScanner extends StatelessWidget {
+class SsgAttendanceScannerPage extends StatelessWidget {
   final String message;
-  const AttendanceScanner({Key key, this.message}) : super(key: key);
+  const SsgAttendanceScannerPage({Key key, this.message}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,30 +14,27 @@ class AttendanceScanner extends StatelessWidget {
       appBar: AppBar(
         title: Text("ID Scanner"),
       ),
-      body: AttendanceScannerBody(
+      body: _AttendanceScannerBody(
         message: message,
       ),
     );
   }
 }
 
-class AttendanceScannerBody extends StatefulWidget {
-  String message;
+class _AttendanceScannerBody extends StatefulWidget {
+  final String message;
 
-  AttendanceScannerBody({Key key, this.message}) : super(key: key);
+  _AttendanceScannerBody({Key key, this.message}) : super(key: key);
 
-  _AttendanceScannerBodyState createState() =>
-      _AttendanceScannerBodyState(message: message);
+  _AttendanceScannerBodyState createState() => _AttendanceScannerBodyState();
 }
 
-class _AttendanceScannerBodyState extends State<AttendanceScannerBody> {
-  String message;
+class _AttendanceScannerBodyState extends State<_AttendanceScannerBody> {
   int _event;
 
   final _dio = Dio();
   RestClient client;
 
-  _AttendanceScannerBodyState({this.message});
   String _qroutput = " ";
   @override
   Widget build(BuildContext context) {
@@ -105,7 +102,7 @@ class _AttendanceScannerBodyState extends State<AttendanceScannerBody> {
                           isPresent: true,
                           eventDate: _event,
                           student: st.id,
-                          logType: int.parse(message));
+                          logType: int.parse(widget.message));
                       await client.saveAttendance(at);
                       final snackBar = SnackBar(
                           content: Text('Attendance successfully log!'));

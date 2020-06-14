@@ -8,8 +8,8 @@ import 'package:myapplication/services/api_services.dart';
 import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 
-class StudentAccount extends StatelessWidget {
-  const StudentAccount({Key key}) : super(key: key);
+class StudentQueryFinesPage extends StatelessWidget {
+  const StudentQueryFinesPage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

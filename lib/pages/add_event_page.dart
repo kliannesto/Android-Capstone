@@ -1,21 +1,22 @@
-import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import 'package:intl/intl.dart';
-import 'package:myapplication/model/log_type.dart';
-import 'package:myapplication/pages/studentsinfo.dart';
-import 'package:myapplication/provider/event_attendance.dart';
-import 'package:myapplication/services/api_services.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class AddEvent extends StatefulWidget {
-  AddEvent({Key key}) : super(key: key);
+import '../model/log_type.dart';
+import '../provider/event_attendance.dart';
+import '../services/api_services.dart';
+import 'student_fines_page.dart';
+
+class AddEventPage extends StatefulWidget {
+  AddEventPage({Key key}) : super(key: key);
 
   @override
   _AddEventState createState() => _AddEventState();
 }
 
-class _AddEventState extends State<AddEvent> {
+class _AddEventState extends State<AddEventPage> {
   final _formKey = GlobalKey<FormState>();
   int _event;
   int _semester;

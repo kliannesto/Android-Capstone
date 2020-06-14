@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:myapplication/provider/event_attendance.dart';
 import 'package:myapplication/services/api_services.dart';
 import 'package:provider/provider.dart';
-import 'package:sms/sms.dart';
+import 'package:sms_maintained/sms.dart';
 
 class SMS {
   static sendMessage(String msg, String contact, BuildContext context) {

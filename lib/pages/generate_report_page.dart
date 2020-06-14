@@ -17,8 +17,8 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pdf;
 import 'package:printing/printing.dart';
 
-class GenerateReport extends StatelessWidget {
-  const GenerateReport({
+class GenerateReportPage extends StatelessWidget {
+  const GenerateReportPage({
     Key key,
   }) : super(key: key);
 
@@ -160,10 +160,13 @@ class _ReportBodyState extends State<ReportBody> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25.0)),
                           onPressed: () async {
-                            context.read<EventAttendance>().getAllEventsBySemAy(
+                            await context
+                                .read<EventAttendance>()
+                                .getAllEventsBySemAy(
                                   _ay,
                                   _sem,
                                 );
+
                             Printing.layoutPdf(
                               onLayout: (
                                 PdfPageFormat pageFormat,

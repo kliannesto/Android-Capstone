@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:myapplication/provider/event_attendance.dart';
-import 'package:myapplication/services/api_services.dart';
 import 'package:provider/provider.dart';
 
-class LogsPage extends StatefulWidget {
-  LogsPage({Key key}) : super(key: key);
+import '../provider/event_attendance.dart';
+import '../services/api_services.dart';
+
+class EntranceAttendanceLogPage extends StatefulWidget {
+  EntranceAttendanceLogPage({Key key}) : super(key: key);
 
   @override
   _LogsPageState createState() => _LogsPageState();
 }
 
-class _LogsPageState extends State<LogsPage> {
+class _LogsPageState extends State<EntranceAttendanceLogPage> {
   @override
   void initState() {
     super.initState();

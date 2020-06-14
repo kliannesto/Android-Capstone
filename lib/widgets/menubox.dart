@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../provider/event_attendance.dart';
-import 'package:provider/provider.dart';
-
 class MenuBox extends StatelessWidget {
   final Color bgcolor;
   final String text;

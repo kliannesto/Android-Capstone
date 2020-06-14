@@ -5,9 +5,10 @@ import 'package:myapplication/services/api_services.dart';
 import 'package:myapplication/utils/qr_codescan.dart';
 import 'package:myapplication/utils/sms.dart';
 
-class SmsScanner extends StatelessWidget {
+class EntranceAttendanceScannerPage extends StatelessWidget {
   final String message;
-  const SmsScanner({Key key, this.message}) : super(key: key);
+  const EntranceAttendanceScannerPage({Key key, this.message})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,24 +16,23 @@ class SmsScanner extends StatelessWidget {
       appBar: AppBar(
         title: Text("ID Scanner"),
       ),
-      body: SmsScannerBody(
+      body: _SmsScannerBody(
         message: message,
       ),
     );
   }
 }
 
-class SmsScannerBody extends StatefulWidget {
-  String message;
+class _SmsScannerBody extends StatefulWidget {
+  final String message;
 
-  SmsScannerBody({Key key, this.message}) : super(key: key);
+  _SmsScannerBody({Key key, this.message}) : super(key: key);
 
   _SmsScannerBodyState createState() => _SmsScannerBodyState();
 }
 
-class _SmsScannerBodyState extends State<SmsScannerBody> {
+class _SmsScannerBodyState extends State<_SmsScannerBody> {
   _SmsScannerBodyState();
-  String _qroutput = " ";
   @override
   Widget build(BuildContext context) {
     return Center(
