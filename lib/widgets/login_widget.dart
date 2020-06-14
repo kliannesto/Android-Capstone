@@ -83,6 +83,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               context.read<EventAttendance>().authenticate(false);
               widget.onLoginSuccess(User(is_admin: true, is_auth: true));
             } else {
+              context.read<EventAttendance>().addError(true);
               context.read<EventAttendance>().authenticate(false);
             }
           }
@@ -143,6 +144,25 @@ class _LoginWidgetState extends State<LoginWidget> {
               SizedBox(height: 8.0),
               password,
               SizedBox(height: 24.0),
+              Consumer<EventAttendance>(
+                builder: (context, event, _) {
+                  if (event.hasError) {
+                    return Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.redAccent),
+                        padding: EdgeInsets.all(8),
+                        child: Text(
+                          'Password or username invalid',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    );
+                  }
+                  return Container();
+                },
+              ),
               loginButton,
               loginGuestButton,
             ],

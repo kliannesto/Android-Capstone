@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:myapplication/provider/event_attendance.dart';
 import 'package:myapplication/services/api_services.dart';
+import 'package:provider/provider.dart';
 
 class AddStudent extends StatefulWidget {
   AddStudent({Key key}) : super(key: key);
@@ -255,6 +257,7 @@ class _AddStudentState extends State<AddStudent> {
                             print('${student.guardiancontact}');
 
                             await client.addStudent(student);
+                            context.read<EventAttendance>().getStudents();
 
                             Navigator.pop(context);
                           }

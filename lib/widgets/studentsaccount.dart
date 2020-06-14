@@ -93,227 +93,236 @@ class _StudentDetailState extends State<StudentDetail> {
     _dio.options.headers["Content-Type"] = "application/json";
     client = RestClient(_dio);
 
-    return Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 4,
-            ),
-            Container(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      keyboardType: TextInputType.text,
-                      autofocus: false,
-                      controller: _studentController,
-                      decoration: InputDecoration(
-                        hintText: 'Enter Student Id',
-                        contentPadding:
-                            EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      ),
-                      validator: (String val) {
-                        if (val == "") {
-                          return "Please Enter student Id";
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  FutureBuilder<List<SY>>(
-                    future: client.getAcademicYears(),
-                    builder: (contex, snapshot) {
-                      if (snapshot.hasData) {
-                        return DropdownButtonFormField(
-                          validator: (int val) {
-                            if (val == null) {
-                              return "Please select academic year!";
+    return Container(
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: 4,
+              ),
+              SingleChildScrollView(
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          keyboardType: TextInputType.text,
+                          autofocus: false,
+                          controller: _studentController,
+                          decoration: InputDecoration(
+                            hintText: 'Enter Student Id',
+                            contentPadding:
+                                EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                          ),
+                          validator: (String val) {
+                            if (val == "") {
+                              return "Please Enter student Id";
                             }
                             return null;
                           },
-                          value: _ay,
-                          hint: Text("Select Academic Year"),
-                          decoration: InputDecoration(
-                              isDense: true,
-                              contentPadding: EdgeInsets.all(8.0),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              )),
-                          items: snapshot.data
-                              .map((sy) => DropdownMenuItem<int>(
-                                    child: Text(sy.AY),
-                                    value: sy.id,
-                                  ))
-                              .toList(),
-                          onChanged: (int value) {
-                            setState(() {
-                              _ay = value;
-                            });
-                          },
-                        );
-                      } else {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    },
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  DropdownButtonFormField(
-                    validator: (int val) {
-                      if (val == null) {
-                        return "Please select semester!";
-                      }
-                      return null;
-                    },
-                    value: _sem,
-                    hint: Text("Select Semester"),
-                    decoration: InputDecoration(
-                        isDense: true,
-                        contentPadding: EdgeInsets.all(8.0),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white),
-                        )),
-                    items: _sems
-                        .map((sem) => DropdownMenuItem<int>(
-                              child: Text(sem.label),
-                              value: sem.val,
-                            ))
-                        .toList(),
-                    onChanged: (int value) {
-                      setState(() {
-                        _sem = value;
-                      });
-                    },
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: RaisedButton(
-                            color: Colors.blueAccent,
-                            child: Text(
-                              "Find",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25.0)),
-                            onPressed: () async {
-                              if (_formKey.currentState.validate()) {
-                                final Student student = await client
-                                    .getStudentById(_studentController.text);
-
-                                context.read<EventAttendance>().geteventDates(
-                                    _ay,
-                                    _sem,
-                                    student.student_id,
-                                    student.religion);
-                              }
-                            },
-                          ),
                         ),
                       ),
+                      FutureBuilder<List<SY>>(
+                        future: client.getAcademicYears(),
+                        builder: (contex, snapshot) {
+                          if (snapshot.hasData) {
+                            return DropdownButtonFormField(
+                              validator: (int val) {
+                                if (val == null) {
+                                  return "Please select academic year!";
+                                }
+                                return null;
+                              },
+                              value: _ay,
+                              hint: Text("Select Academic Year"),
+                              decoration: InputDecoration(
+                                  isDense: true,
+                                  contentPadding: EdgeInsets.all(8.0),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.white),
+                                  )),
+                              items: snapshot.data
+                                  .map((sy) => DropdownMenuItem<int>(
+                                        child: Text(sy.AY),
+                                        value: sy.id,
+                                      ))
+                                  .toList(),
+                              onChanged: (int value) {
+                                setState(() {
+                                  _ay = value;
+                                });
+                              },
+                            );
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      DropdownButtonFormField(
+                        validator: (int val) {
+                          if (val == null) {
+                            return "Please select semester!";
+                          }
+                          return null;
+                        },
+                        value: _sem,
+                        hint: Text("Select Semester"),
+                        decoration: InputDecoration(
+                            isDense: true,
+                            contentPadding: EdgeInsets.all(8.0),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            )),
+                        items: _sems
+                            .map((sem) => DropdownMenuItem<int>(
+                                  child: Text(sem.label),
+                                  value: sem.val,
+                                ))
+                            .toList(),
+                        onChanged: (int value) {
+                          setState(() {
+                            _sem = value;
+                          });
+                        },
+                      ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: RaisedButton(
+                                color: Colors.blueAccent,
+                                child: Text(
+                                  "Find",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25.0)),
+                                onPressed: () async {
+                                  if (_formKey.currentState.validate()) {
+                                    final Student student =
+                                        await client.getStudentById(
+                                            _studentController.text);
+
+                                    context
+                                        .read<EventAttendance>()
+                                        .geteventDates(
+                                            _ay,
+                                            _sem,
+                                            student.student_id,
+                                            student.religion);
+                                  }
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                          padding: EdgeInsets.only(left: 8.0, right: 8),
+                          child: Divider())
                     ],
                   ),
-                  Padding(
-                      padding: EdgeInsets.only(left: 8.0, right: 8),
-                      child: Divider())
-                ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Expanded(
-              child: Consumer<EventAttendance>(
-                builder: (context, event, _) {
-                  return ListView.builder(
-                    itemCount: event.atts.length,
-                    itemBuilder: (context, index) {
-                      print(event.atts[index].isPresent);
-                      return InkWell(
-                        onTap: () {
-                          //
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(8.0),
-                          child: Row(
-                            children: <Widget>[
-                              CircleAvatar(
-                                radius: 24.0,
-                                backgroundColor:
-                                    colors[Random().nextInt(colors.length)],
-                                child: Text(
-                                    event.atts[index].eventDate.event.name !=
-                                            null
-                                        ? event.atts[index].eventDate.event.name
-                                            .substring(0, 1)
-                                        : '',
-                                    style: TextStyle(color: Colors.white)),
-                              ),
-                              SizedBox(
-                                width: 8.0,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
+              SizedBox(
+                height: 8.0,
+              ),
+              Expanded(
+                child: Consumer<EventAttendance>(
+                  builder: (context, event, _) {
+                    return ListView.builder(
+                      itemCount: event.atts.length,
+                      itemBuilder: (context, index) {
+                        print(event.atts[index].isPresent);
+                        return InkWell(
+                          onTap: () {
+                            //
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(8.0),
+                            child: Row(
+                              children: <Widget>[
+                                CircleAvatar(
+                                  radius: 24.0,
+                                  backgroundColor:
+                                      colors[Random().nextInt(colors.length)],
+                                  child: Text(
                                       event.atts[index].eventDate.event.name !=
                                               null
                                           ? event
                                               .atts[index].eventDate.event.name
+                                              .substring(0, 1)
                                           : '',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500)),
-                                  Text(event.atts[index].eventDate.event.fines
-                                      .toString())
-                                ],
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                                SizedBox(
+                                  width: 8.0,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    event.atts[index].eventDate.eventdate !=
-                                            null
-                                        ? Text(DateFormat("MM-dd-yyyy").format(
-                                            event.atts[index].eventDate
-                                                .eventdate))
-                                        : Text(''),
-                                    event.atts[index].isPresent != null &&
-                                                event.atts[index].isPresent ||
-                                            (event.atts[index].student
-                                                        .religion !=
-                                                    'Catholic' &&
-                                                event.atts[index].eventDate
-                                                        .event.name ==
-                                                    'Mass')
-                                        ? Text('Present')
-                                        : Text('absent')
+                                    Text(
+                                        event.atts[index].eventDate.event
+                                                    .name !=
+                                                null
+                                            ? event.atts[index].eventDate.event
+                                                .name
+                                            : '',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500)),
+                                    Text(event.atts[index].eventDate.event.fines
+                                        .toString())
                                   ],
                                 ),
-                              )
-                            ],
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget>[
+                                      event.atts[index].eventDate.eventdate !=
+                                              null
+                                          ? Text(DateFormat("MM-dd-yyyy")
+                                              .format(event.atts[index]
+                                                  .eventDate.eventdate))
+                                          : Text(''),
+                                      event.atts[index].isPresent != null &&
+                                                  event.atts[index].isPresent ||
+                                              (event.atts[index].student
+                                                          .religion !=
+                                                      'Catholic' &&
+                                                  event.atts[index].eventDate
+                                                          .event.name ==
+                                                      'Mass')
+                                          ? Text('Present')
+                                          : Text('absent')
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            )
-          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -16,6 +16,7 @@ class EventAttendance with ChangeNotifier {
   final _dio = Dio();
   RestClient client;
   bool isAuthenticating = false;
+  bool hasError = false;
   EventAttendance() {
     _dio.options.headers["Content-Type"] = "application/json";
     client = RestClient(_dio);
@@ -29,7 +30,15 @@ class EventAttendance with ChangeNotifier {
   }
 
   void authenticate(bool isAuth) {
+    if (isAuth) {
+      hasError = false;
+    }
     isAuthenticating = isAuth;
+    notifyListeners();
+  }
+
+  void addError(bool _hasError) {
+    hasError = _hasError;
     notifyListeners();
   }
 

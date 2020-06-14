@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final _dio = Dio();
     RestClient client = RestClient(_dio);
     User user = await client.login(credential);
-    print(user.is_auth);
+
     if (user.is_auth) {
       return true;
     }

@@ -60,70 +60,66 @@ class _StudentListState extends State<StudentList> {
         ),
         body: Padding(
             padding: EdgeInsets.all(8.0),
-            child: FutureBuilder<List<Student>>(
-                future: client.getStudents(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              context
-                                  .read<EventAttendance>()
-                                  .clearEventsAndAttendance();
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) {
-                                return StudentPage(
-                                    student: snapshot.data[index]);
-                              }));
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(8.0),
-                              child: Row(
-                                children: <Widget>[
-                                  CircleAvatar(
-                                    radius: 24.0,
-                                    backgroundColor:
-                                        colors[Random().nextInt(colors.length)],
-                                    child: Text(
-                                        snapshot.data[index].fullname
-                                            .substring(0, 1),
-                                        style: TextStyle(color: Colors.white)),
-                                  ),
-                                  SizedBox(
-                                    width: 8.0,
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(snapshot.data[index].fullname,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold)),
-                                      Text(snapshot.data[index].address)
-                                    ],
-                                  )
-                                ],
+            child: Consumer<EventAttendance>(builder: (context, event, _) {
+              if (event.students.length > 0) {
+                return ListView.builder(
+                    itemCount: event.students.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          context
+                              .read<EventAttendance>()
+                              .clearEventsAndAttendance();
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) {
+                            return StudentPage(student: event.students[index]);
+                          }));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8.0),
+                          child: Row(
+                            children: <Widget>[
+                              CircleAvatar(
+                                radius: 24.0,
+                                backgroundColor:
+                                    colors[Random().nextInt(colors.length)],
+                                child: Text(
+                                    event.students[index].fullname
+                                        .substring(0, 1),
+                                    style: TextStyle(color: Colors.white)),
                               ),
-                            ),
-                          );
-                        });
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Container(
-                        child: Text("An Error occured!"),
-                      ),
-                    );
-                  } else {
-                    print("!");
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                })));
+                              SizedBox(
+                                width: 8.0,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(event.students[index].fullname,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
+                                  Text(event.students[index].address)
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+              } else if (event.hasError) {
+                return Center(
+                  child: Container(
+                    child: Text("An Error occured!"),
+                  ),
+                );
+              } else {
+                print("!");
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            })));
   }
 }

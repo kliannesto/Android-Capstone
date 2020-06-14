@@ -37,12 +37,14 @@ List<AttendanceWithObjEvent> _filterByCourse(
 
 CourseFine attendanceToCourseFine(List<AttendanceWithObjEvent> attendanceAll) {
   double totalFines = 0;
-  for (AttendanceWithObjEvent a in attendanceAll) {
-    if (a.eventDate.event.name.toUpperCase() == 'MASS' &&
-        a.student.religion != 'Catholic') {
-      totalFines = totalFines + 0;
-    } else {
-      totalFines = totalFines + a.eventDate.event.fines;
+  for (AttendanceWithObjEvent e in attendanceAll) {
+    if (!e.isPresent) {
+      if (e.student.religion != 'Catholic' &&
+          e.eventDate.event.name == 'Mass') {
+        totalFines = totalFines + 0;
+      } else if (e.student.isActive) {
+        totalFines = totalFines + e.eventDate.event.fines;
+      }
     }
   }
 
@@ -75,17 +77,16 @@ Future<Uint8List> generateFinesReport(PdfPageFormat pageFormat,
       _filterByCourse('BSHM', attendanceAll);
 
   List<CourseFine> fines = [];
-  if (attendanceAllBSIT.length > 0) {
-    fines.add(attendanceToCourseFine(attendanceAllBSIT));
-  } else if (attendanceAllBEED.length > 0) {
-    fines.add(attendanceToCourseFine(attendanceAllBEED));
-  } else if (attendanceAllBSED.length > 0) {
-    fines.add(attendanceToCourseFine(attendanceAllBSED));
-  } else if (attendanceAllBSCRIM.length > 0) {
-    fines.add(attendanceToCourseFine(attendanceAllBSCRIM));
-  } else if (attendanceAllBSHM.length > 0) {
-    fines.add(attendanceToCourseFine(attendanceAllBSHM));
-  }
+
+  fines.add(attendanceToCourseFine(attendanceAllBSIT));
+
+  fines.add(attendanceToCourseFine(attendanceAllBEED));
+
+  fines.add(attendanceToCourseFine(attendanceAllBSED));
+
+  fines.add(attendanceToCourseFine(attendanceAllBSCRIM));
+
+  fines.add(attendanceToCourseFine(attendanceAllBSHM));
 
   final finesReport = FinesReport(
       baseColor: PdfColors.blue,
