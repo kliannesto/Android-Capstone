@@ -16,10 +16,13 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  final GlobalKey<ScaffoldState> _scaffoldstate =
+      new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     final isAdmin = context.select((EventAttendance e) => e.user.is_admin);
     return Scaffold(
+      key: _scaffoldstate,
       body: NestedScrollView(
         body: SingleChildScrollView(
           child: Container(
@@ -53,7 +56,7 @@ class _HomepageState extends State<Homepage> {
                         } else {
                           final snackBar =
                               SnackBar(content: Text('Admin access only!'));
-                          Scaffold.of(context).showSnackBar(snackBar);
+                          _scaffoldstate.currentState.showSnackBar(snackBar);
                         }
                       },
                       bgcolor: Colors.pinkAccent,
@@ -100,7 +103,7 @@ class _HomepageState extends State<Homepage> {
                           } else {
                             final snackBar =
                                 SnackBar(content: Text('Admin access only!'));
-                            Scaffold.of(context).showSnackBar(snackBar);
+                            _scaffoldstate.currentState.showSnackBar(snackBar);
                           }
                         },
                         bgcolor: Colors.purple,
@@ -153,7 +156,7 @@ class _HomepageState extends State<Homepage> {
                           } else {
                             final snackBar =
                                 SnackBar(content: Text('Admin access only!'));
-                            Scaffold.of(context).showSnackBar(snackBar);
+                            _scaffoldstate.currentState.showSnackBar(snackBar);
                           }
                         },
                         bgcolor: Colors.lightBlue,
